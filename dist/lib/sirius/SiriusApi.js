@@ -305,5 +305,4 @@ var ArrayFormat;
     ArrayFormat["Float32"] = "f32";
     ArrayFormat["UInt8"] = "ui8";
 })(ArrayFormat || (ArrayFormat = {}));
-exports.default = SiriusApi;
 //# sourceMappingURL=SiriusApi.js.map

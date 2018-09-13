@@ -95,8 +95,8 @@ var SoTranscriptComponentClass = /** @class */ (function () {
     return SoTranscriptComponentClass;
 }());
 exports.SoTranscriptComponentClass = SoTranscriptComponentClass;
-var AnnotationTileset = /** @class */ (function () {
-    function AnnotationTileset(tileSize, topLevelOnly, onUnknownFeature, onError) {
+var Tileset = /** @class */ (function () {
+    function Tileset(tileSize, topLevelOnly, onUnknownFeature, onError) {
         var _this = this;
         this.tileSize = tileSize;
         this.topLevelOnly = topLevelOnly;
@@ -113,7 +113,7 @@ var AnnotationTileset = /** @class */ (function () {
             }
         };
     }
-    AnnotationTileset.prototype.addFeature = function (tile, feature) {
+    Tileset.prototype.addFeature = function (tile, feature) {
         var e_1, _a;
         var featureCommon = {
             name: feature.name,
@@ -164,7 +164,7 @@ var AnnotationTileset = /** @class */ (function () {
             }
         }
     };
-    AnnotationTileset.prototype.getTile = function (sequenceId, index) {
+    Tileset.prototype.getTile = function (sequenceId, index) {
         var tiles = this.sequences[sequenceId];
         if (tiles === undefined) {
             // create tile array for sequence
@@ -184,8 +184,7 @@ var AnnotationTileset = /** @class */ (function () {
         }
         return tiles[index];
     };
-    return AnnotationTileset;
+    return Tileset;
 }());
-exports.AnnotationTileset = AnnotationTileset;
-exports.default = AnnotationTileset;
+exports.Tileset = Tileset;
 //# sourceMappingURL=AnnotationTileset.js.map

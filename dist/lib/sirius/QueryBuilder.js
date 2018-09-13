@@ -15,7 +15,8 @@ var QueryType;
     QueryType["GENOME"] = "GenomeNode";
     QueryType["INFO"] = "InfoNode";
     QueryType["EDGE"] = "EdgeNode";
-})(QueryType = exports.QueryType || (exports.QueryType = {}));
+})(QueryType || (QueryType = {}));
+exports.QueryType = QueryType;
 var QueryBuilder = /** @class */ (function () {
     function QueryBuilder(query) {
         if (query === void 0) { query = {}; }
@@ -194,5 +195,4 @@ var QueryBuilder = /** @class */ (function () {
     return QueryBuilder;
 }());
 exports.QueryBuilder = QueryBuilder;
-exports.default = QueryBuilder;
 //# sourceMappingURL=QueryBuilder.js.map

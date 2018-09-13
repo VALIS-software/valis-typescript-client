@@ -44,7 +44,7 @@ function mergeResults(promises) {
         return allResults;
     });
 }
-var builder = new QueryBuilder_1.default();
+var builder = new QueryBuilder_1.QueryBuilder();
 function buildVariantQuery(parsePath) {
     var token = parsePath[0];
     if (token.rule === 'INFLUENCING') {
@@ -420,5 +420,4 @@ function buildQueryParser(suggestions) {
     return new QueryParser(expansions, terminals, suggestions);
 }
 exports.buildQueryParser = buildQueryParser;
-exports.default = buildQueryParser;
 //# sourceMappingURL=queryparser.js.map

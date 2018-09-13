@@ -1,11 +1,20 @@
 "use strict";
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
 Object.defineProperty(exports, "__esModule", { value: true });
-__export(require("canis/CanisApi"));
-__export(require("sirius/SiriusApi"));
-__export(require("sirius/AnnotationTileset"));
-__export(require("sirius/EntityType"));
-__export(require("sirius/QueryBuilder"));
+var CanisApi = require("./lib/canis/CanisApi");
+exports.CanisApi = CanisApi;
+var SiriusApi_1 = require("./lib/sirius/SiriusApi");
+exports.SiriusApi = SiriusApi_1.SiriusApi;
+var AnnotationTileset = require("./lib/sirius/AnnotationTileset");
+exports.AnnotationTileset = AnnotationTileset;
+var EntityType_1 = require("./lib/sirius/EntityType");
+exports.EntityType = EntityType_1.EntityType;
+var QueryBuilder_1 = require("./lib/sirius/QueryBuilder");
+exports.QueryType = QueryBuilder_1.QueryType;
+exports.QueryBuilder = QueryBuilder_1.QueryBuilder;
+var queryparser_1 = require("./lib/sirius/queryparser");
+exports.buildQueryParser = queryparser_1.buildQueryParser;
+var Strand_1 = require("./lib/gff3/Strand");
+exports.Strand = Strand_1.default;
+var Gff3Parser_1 = require("./lib/gff3/Gff3Parser");
+exports.Gff3Parser = Gff3Parser_1.default;
 //# sourceMappingURL=index.js.map
