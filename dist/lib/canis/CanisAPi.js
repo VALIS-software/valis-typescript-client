@@ -53,6 +53,7 @@ var CanisApi = /** @class */ (function () {
     CanisApi.apiUrl = '';
     return CanisApi;
 }());
+exports.CanisApi = CanisApi;
 var CanisObject = /** @class */ (function () {
     function CanisObject(json) {
         this._clientProps = json;
@@ -275,5 +276,4 @@ var Dataset = /** @class */ (function (_super) {
     return Dataset;
 }(CanisObject));
 exports.Dataset = Dataset;
-exports.default = CanisApi;
-//# sourceMappingURL=CanisAPi.js.map
+//# sourceMappingURL=CanisApi.js.map

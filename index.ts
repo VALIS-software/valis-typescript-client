@@ -1,4 +1,15 @@
-import * as canis from './lib/canis/CanisAPi';
-import * as sirius from './lib/sirius';
+import { CanisApi, Dataset, AnalysisType, Analysis, Job, RunStatusType }  from './lib/canis/CanisApi';
+import { SiriusApi, AnnotationTileset, EntityType, QueryBuilder }  from './lib/sirius';
 
-export { canis, sirius };
+export { 
+    CanisApi, 
+    Dataset, 
+    AnalysisType, 
+    Analysis, 
+    Job, 
+    RunStatusType,  
+    SiriusApi, 
+    AnnotationTileset, 
+    EntityType, 
+    QueryBuilder 
+};

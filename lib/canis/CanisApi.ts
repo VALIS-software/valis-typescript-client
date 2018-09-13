@@ -229,5 +229,4 @@ class Dataset extends CanisObject {
     }
 }
 
-export default CanisApi;
-export { Dataset, AnalysisType, Analysis, Job, RunStatusType }
+export { CanisApi, Dataset, AnalysisType, Analysis, Job, RunStatusType }
