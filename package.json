@@ -1,0 +1,30 @@
+{
+  "name": "valis",
+  "version": "1.0.0",
+  "description": "VALIS Client",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VALIS-software/valis-typescript-client.git"
+  },
+  "author": "VALIS Software Corp.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VALIS-software/valis-typescript-client/issues"
+  },
+  "homepage": "https://github.com/VALIS-software/valis-typescript-client#readme",
+  "devDependencies": {
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "@types/enzyme": "^3.1.13",
+    "@types/jest": "^23.3.2",
+    "axios": "^0.18.0",
+    "enzyme": "^3.6.0",
+    "jest": "^23.6.0",
+    "ts-jest": "^23.1.4"
+  }
+}

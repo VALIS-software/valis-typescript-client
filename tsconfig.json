@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "sourceMap": true,
+        "module": "commonjs",
+        "target": "es5",
+        "downlevelIteration": true,
+        "lib": [
+            "es2015",
+            "DOM",
+            "ScriptHost"
+        ],
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "*",
+                "lib/*"
+            ]
+        },
+        "noImplicitAny": true,
+        "strictNullChecks": false,
+        "allowJs": true,
+    }
+}
