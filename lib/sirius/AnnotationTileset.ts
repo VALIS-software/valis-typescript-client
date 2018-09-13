@@ -123,7 +123,7 @@ export type Tile = {
 	content: TileContent
 }
 
-export class AnnotationTileset {
+export class Tileset {
 
 	readonly sequences: { [sequenceId: string]: Array<Tile> } = {};
 
@@ -223,5 +223,3 @@ export class AnnotationTileset {
 	}
 
 }
-
-export default AnnotationTileset;

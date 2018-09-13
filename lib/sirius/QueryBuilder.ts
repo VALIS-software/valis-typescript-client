@@ -1,10 +1,10 @@
-export enum QueryType {
+enum QueryType {
   GENOME = 'GenomeNode',
   INFO = 'InfoNode',
   EDGE = 'EdgeNode',
 }
 
-export class QueryBuilder {
+class QueryBuilder {
   query: any;
 
   constructor(query = {}) {
@@ -198,4 +198,4 @@ export class QueryBuilder {
   }
 }
 
-export default QueryBuilder;
+export { QueryType, QueryBuilder }

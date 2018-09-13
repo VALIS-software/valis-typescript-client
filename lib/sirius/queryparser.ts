@@ -1,4 +1,4 @@
-import QueryBuilder from "./QueryBuilder";
+import { QueryBuilder } from "./QueryBuilder";
 
 class ParsedToken {
     public rule: Rule;
@@ -389,7 +389,7 @@ export class QueryParser {
     }
 }
 
-export function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): QueryParser {
+function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): QueryParser {
     const terminals = new Map<Rule, RegExp>();
     terminals.set('TRAIT', /"(.+?)"/g);
     terminals.set('GENE', /"(.+?)"/g);
@@ -438,4 +438,4 @@ export function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider
     return new QueryParser(expansions, terminals, suggestions);
 }
 
-export default buildQueryParser;
+export { buildQueryParser };

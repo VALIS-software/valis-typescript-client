@@ -1,4 +1,4 @@
-export enum EntityType {
+enum EntityType {
     SNP = 'SNP',
     VARIANT = 'variant',
     GENE = 'gene',
@@ -9,4 +9,4 @@ export enum EntityType {
     EQTL = 'association:SNP:gene',
 };
 
-export default EntityType;
+export { EntityType };

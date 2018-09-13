@@ -5,7 +5,7 @@ import axios, { AxiosRequestConfig, CancelToken } from 'axios';
 
 import { TileContent } from './AnnotationTileset';
 
-export class SiriusApi {
+class SiriusApi {
 
     public static apiUrl: string = '';
 
@@ -352,4 +352,4 @@ interface ArrayFormatMap {
     [ArrayFormat.UInt8]: Uint8Array,
 }
 
-export default SiriusApi;
+export { SiriusApi }
