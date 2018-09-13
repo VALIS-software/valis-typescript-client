@@ -14,11 +14,11 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = require("axios");
-var CanisApi = /** @class */ (function () {
-    function CanisApi() {
+var Api = /** @class */ (function () {
+    function Api() {
     }
-    CanisApi.getMultiple = function (endpoint, constructFn) {
-        var url = CanisApi.apiUrl + "/" + endpoint;
+    Api.getMultiple = function (endpoint, constructFn) {
+        var url = Api.apiUrl + "/" + endpoint;
         return axios_1.default({
             method: 'get',
             url: url,
@@ -28,8 +28,8 @@ var CanisApi = /** @class */ (function () {
             return resultList.map(constructFn);
         });
     };
-    CanisApi.getById = function (endpoint, objId, constructFn) {
-        var url = CanisApi.apiUrl + "/" + endpoint + "/" + objId;
+    Api.getById = function (endpoint, objId, constructFn) {
+        var url = Api.apiUrl + "/" + endpoint + "/" + objId;
         return axios_1.default({
             method: 'get',
             url: url,
@@ -38,22 +38,22 @@ var CanisApi = /** @class */ (function () {
             return constructFn(a.data);
         });
     };
-    CanisApi.getDatasets = function () {
-        return CanisApi.getMultiple(Dataset.resource, function (json) { return new Dataset(json); });
+    Api.getDatasets = function () {
+        return Api.getMultiple(Dataset.resource, function (json) { return new Dataset(json); });
     };
-    CanisApi.getAnalysis = function (analysisId) {
-        return CanisApi.getById(Analysis.resource, analysisId, function (json) { return new Analysis(json); });
+    Api.getAnalysis = function (analysisId) {
+        return Api.getById(Analysis.resource, analysisId, function (json) { return new Analysis(json); });
     };
-    CanisApi.getDataset = function (id) {
-        return CanisApi.getById(Dataset.resource, id, function (json) { return new Dataset(json); });
+    Api.getDataset = function (id) {
+        return Api.getById(Dataset.resource, id, function (json) { return new Dataset(json); });
     };
-    CanisApi.getJob = function (jobId) {
-        return CanisApi.getById(Job.resource, jobId, function (json) { return new Job(json); });
+    Api.getJob = function (jobId) {
+        return Api.getById(Job.resource, jobId, function (json) { return new Job(json); });
     };
-    CanisApi.apiUrl = '';
-    return CanisApi;
+    Api.apiUrl = '';
+    return Api;
 }());
-exports.CanisApi = CanisApi;
+exports.Api = Api;
 var CanisObject = /** @class */ (function () {
     function CanisObject(json) {
         this._clientProps = json;
@@ -129,7 +129,7 @@ var Job = /** @class */ (function (_super) {
             }
             else {
                 // Load the full model
-                CanisApi.getJob(_this.id).then(function (d) {
+                Api.getJob(_this.id).then(function (d) {
                     _this._savedProps = JSON.parse(JSON.stringify(d._savedProps));
                     resolve(_this._savedProps.code);
                 });
@@ -178,7 +178,7 @@ var Analysis = /** @class */ (function (_super) {
         configurable: true
     });
     Analysis.prototype.createRun = function (name) {
-        var url = CanisApi.apiUrl + "/jobs";
+        var url = Api.apiUrl + "/jobs";
         return axios_1.default({
             method: 'post',
             url: url,
@@ -195,7 +195,7 @@ var Analysis = /** @class */ (function (_super) {
     };
     Analysis.prototype.getRuns = function (withStatus) {
         var status = withStatus ? "&withStatus=" + withStatus : '';
-        var url = CanisApi.apiUrl + "/jobs?analysisId=" + this.analysisId + status + "}";
+        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId + status + "}";
         return axios_1.default({
             method: 'get',
             url: url,
@@ -245,7 +245,7 @@ var Dataset = /** @class */ (function (_super) {
         configurable: true
     });
     Dataset.prototype.getAnalyses = function () {
-        var url = CanisApi.apiUrl + "/analyses?datasetId=" + this.datasetId;
+        var url = Api.apiUrl + "/analyses?datasetId=" + this.datasetId;
         return axios_1.default({
             method: 'get',
             url: url,
@@ -257,7 +257,7 @@ var Dataset = /** @class */ (function (_super) {
         });
     };
     Dataset.prototype.createAnalysis = function (type, code) {
-        var url = CanisApi.apiUrl + "/analyses";
+        var url = Api.apiUrl + "/analyses";
         return axios_1.default({
             method: 'post',
             url: url,

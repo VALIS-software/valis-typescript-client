@@ -2,6 +2,7 @@
     "compilerOptions": {
         "outDir": "./dist/",
         "sourceMap": true,
+        "declaration": true,
         "module": "commonjs",
         "target": "es5",
         "downlevelIteration": true,
@@ -19,6 +20,5 @@
         },
         "noImplicitAny": true,
         "strictNullChecks": false,
-        "allowJs": true,
     }
 }

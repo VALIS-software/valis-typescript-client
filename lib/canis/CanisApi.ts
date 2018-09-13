@@ -2,10 +2,10 @@
 import axios from 'axios';
 
 
-class CanisApi {
+class Api {
     public static apiUrl = '';
     private static getMultiple(endpoint: string, constructFn: (json: any) => CanisObject) : Promise<Array<CanisObject>> {
-        let url = `${CanisApi.apiUrl}/${endpoint}`;
+        let url = `${Api.apiUrl}/${endpoint}`;
         return axios({
                 method: 'get',
                 url: url,
@@ -17,7 +17,7 @@ class CanisApi {
     }
 
     private static getById(endpoint: string, objId: string, constructFn: (json: any) => CanisObject) : Promise<CanisObject> {
-        let url = `${CanisApi.apiUrl}/${endpoint}/${objId}`;
+        let url = `${Api.apiUrl}/${endpoint}/${objId}`;
         return axios({
                 method: 'get',
                 url: url,
@@ -28,19 +28,19 @@ class CanisApi {
     }
 
     static getDatasets() : Promise<Array<Dataset>> {
-        return CanisApi.getMultiple(Dataset.resource, (json: any) => new Dataset(json)) as Promise<Array<Dataset>>;
+        return Api.getMultiple(Dataset.resource, (json: any) => new Dataset(json)) as Promise<Array<Dataset>>;
     }
 
     static getAnalysis(analysisId: string) : Promise<Analysis> {
-        return CanisApi.getById(Analysis.resource, analysisId, (json: any) => new Analysis(json)) as Promise<Analysis>;
+        return Api.getById(Analysis.resource, analysisId, (json: any) => new Analysis(json)) as Promise<Analysis>;
     }
 
     static getDataset(id: string) : Promise<Dataset> {
-        return CanisApi.getById(Dataset.resource, id, (json: any) => new Dataset(json) )as Promise<Dataset>;
+        return Api.getById(Dataset.resource, id, (json: any) => new Dataset(json) )as Promise<Dataset>;
     }
 
     static getJob(jobId: string) : Promise<Job> {
-        return CanisApi.getById(Job.resource, jobId, (json: any) => new Job(json)) as Promise<Job>;
+        return Api.getById(Job.resource, jobId, (json: any) => new Job(json)) as Promise<Job>;
     }
 }
 
@@ -103,7 +103,7 @@ class Job extends CanisObject {
                     resolve(this._savedProps.code);
                 } else {
                     // Load the full model
-                    CanisApi.getJob(this.id).then((d: Job) => {
+                    Api.getJob(this.id).then((d: Job) => {
                         this._savedProps = JSON.parse(JSON.stringify(d._savedProps));
                         resolve(this._savedProps.code);
                     });
@@ -140,7 +140,7 @@ class Analysis extends CanisObject {
     }
 
     createRun(name?: string): Promise<Job> {
-        let url = `${CanisApi.apiUrl}/jobs`;
+        let url = `${Api.apiUrl}/jobs`;
         return axios({
                 method: 'post',
                 url: url,
@@ -158,7 +158,7 @@ class Analysis extends CanisObject {
 
     getRuns(withStatus?: RunStatusType) : Promise<Array<Job>> {
         const status = withStatus ? `&withStatus=${withStatus}` : '';
-        let url = `${CanisApi.apiUrl}/jobs?analysisId=${this.analysisId}${status}}`;
+        let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}${status}}`;
         return axios({
                 method: 'get',
                 url: url,
@@ -199,7 +199,7 @@ class Dataset extends CanisObject {
     }
 
     getAnalyses() : Promise<Array<Analysis>> {
-        let url = `${CanisApi.apiUrl}/analyses?datasetId=${this.datasetId}`;
+        let url = `${Api.apiUrl}/analyses?datasetId=${this.datasetId}`;
         return axios({
                 method: 'get',
                 url: url,
@@ -212,7 +212,7 @@ class Dataset extends CanisObject {
     }
 
     createAnalysis(type: AnalysisType, code?: string) : Promise<Analysis> {
-        let url = `${CanisApi.apiUrl}/analyses`;
+        let url = `${Api.apiUrl}/analyses`;
         return axios({
                 method: 'post',
                 url: url,
@@ -229,4 +229,4 @@ class Dataset extends CanisObject {
     }
 }
 
-export { CanisApi, Dataset, AnalysisType, Analysis, Job, RunStatusType }
+export { Api, Dataset, AnalysisType, Analysis, Job, RunStatusType }

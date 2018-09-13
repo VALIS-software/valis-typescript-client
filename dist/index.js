@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var CanisApi = require("./lib/canis/CanisApi");
-exports.CanisApi = CanisApi;
+var Canis = require("./lib/canis/CanisApi");
+exports.Canis = Canis;
 var SiriusApi_1 = require("./lib/sirius/SiriusApi");
 exports.SiriusApi = SiriusApi_1.SiriusApi;
 var AnnotationTileset = require("./lib/sirius/AnnotationTileset");
