@@ -474,14 +474,13 @@ function buildVariantQueryParser(suggestions: Map<Rule, SuggestionResultProvider
     expansions.set('ANNOTATION_TYPE', [ANY, 'PROMOTER', 'ENHANCER']);
     expansions.set('CELL_ANNOTATION', [ALL, 'ANNOTATION_TYPE', 'OF', 'TARGET', 'IN', 'CELL_TYPE']);
     // The root query rules
-    expansions.set('VARIANT_QUERY', [ALL, 'VARIANTS', 'INFLUENCING_TRAIT_OR_NAMED_RS', EOF]);
     expansions.set('GENE_QUERY', [ALL, 'GENE_T', 'NAMED_GENE_OR_INFLUENCEING_TRAIT', EOF]);
     expansions.set('TRAIT_QUERY', [ALL, 'TRAIT_T', 'TRAIT', EOF]);
     expansions.set('EQTL_QUERY', [ALL, 'EQTL', 'INFLUENCING_GENE_OR_NAMED_RS', EOF]);
     expansions.set('ANNOTATION_QUERY', [ALL, 'CELL_ANNOTATION', EOF]);
     // expansions.set('PATIENT_QUERY', [ALL, 'PATIENT_T', 'WITH_TUMOR', 'TUMOR_SITE', EOF]);
     // expansions.set('SNP_RS_QUERY', [ALL, 'RS_T', EOF]);
-    expansions.set('ROOT', [ANY, 'VARIANT_QUERY']);
+    expansions.set('ROOT', [ANY, 'INFLUENCING_TRAIT_OR_NAMED_RS']);
     // return empty result for rs prefix queries
     suggestions.set('RS_T', (q: string, num: number) => new Promise((resolve, reject) => resolve([])));
     return new QueryParser(expansions, terminals, suggestions);
