@@ -3,6 +3,7 @@ import { SiriusApi } from './lib/sirius/SiriusApi';
 import * as AnnotationTileset from  './lib/sirius/AnnotationTileset';
 import { EntityType } from './lib/sirius/EntityType';
 import { QueryType, QueryBuilder } from './lib/sirius/QueryBuilder';
+import { QueryModel } from './lib/sirius/QueryModel';
 import { buildQueryParser } from './lib/sirius/queryparser';
 import Strand from './lib/gff3/Strand';
 import Feature from './lib/gff3/Feature';
