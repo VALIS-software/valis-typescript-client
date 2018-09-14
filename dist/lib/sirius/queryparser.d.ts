@@ -42,4 +42,5 @@ export declare class QueryParser {
     getSuggestions(inputText: string, maxSuggestions?: number): Suggestion;
 }
 declare function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): QueryParser;
-export { buildQueryParser };
+declare function buildVariantQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): QueryParser;
+export { buildQueryParser, buildVariantQueryParser };

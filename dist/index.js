@@ -13,6 +13,7 @@ exports.QueryType = QueryBuilder_1.QueryType;
 exports.QueryBuilder = QueryBuilder_1.QueryBuilder;
 var queryparser_1 = require("./lib/sirius/queryparser");
 exports.buildQueryParser = queryparser_1.buildQueryParser;
+exports.buildVariantQueryParser = queryparser_1.buildVariantQueryParser;
 var Strand_1 = require("./lib/gff3/Strand");
 exports.Strand = Strand_1.default;
 var Gff3Parser_1 = require("./lib/gff3/Gff3Parser");
