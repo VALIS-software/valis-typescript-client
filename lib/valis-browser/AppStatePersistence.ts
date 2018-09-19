@@ -20,11 +20,11 @@ export enum SidebarViewType {
 type MinifiedAppState = {
 	/** TrackViewer state */
 	t: {
-        /** Panel data: [[panel.contig, panel.x0, panel.x1, width], ...] */
-        p: Array<Array<any>>,
-        /** Track row data: [[row.trackRow.model, row.heightPx], ...] */
-        t: Array<Array<any>>
-    },
+		/** Panel data: [[panel.contig, panel.x0, panel.x1, width], ...] */
+		p: Array<Array<any>>,
+		/** Track row data: [[row.trackRow.model, row.heightPx], ...] */
+		t: Array<Array<any>>
+	},
 	/** Sidebar view state */
 	s: {
 		/** Sidebar view type */
@@ -39,26 +39,26 @@ type MinifiedAppState = {
 
 export class AppStatePersistence {
 
-    static version = 0;
+	static version = 0;
 
 	static getUrlHash(stateObject: ValisBrowserConfig) {
-        let stateUrl = '#' + this.serializeConfig(stateObject);
-        return stateUrl;
+		let stateUrl = '#' + this.serializeConfig(stateObject);
+		return stateUrl;
 	}
 
 	/**
 	 * @throws string on invalid state url
 	 */
-	static parseUrlHash(url: { hash: string }): ValisBrowserConfig {
-		let stateString = url.hash.substring(1);
+	static parseUrlHash(hash: string): ValisBrowserConfig {
+		let stateString = hash.substring(1);
 		return this.deserializeConfig(stateString);
 	}
 
 	private static serializeConfig(state: ValisBrowserConfig): string {
 		let minifiedState: MinifiedAppState = {
-            t: this.minifyGenomeBrowserState(state.genomeBrowser),
+			t: this.minifyGenomeBrowserState(state.genomeBrowser),
 			s: this.minifySidebarState(state.sidebar)
-        };
+		};
 
 		let jsonString = JSON.stringify(minifiedState);
 		let compressedString = LZString.compressToBase64(jsonString);
@@ -105,9 +105,9 @@ export class AppStatePersistence {
 		}
 
 		return {
-            p: minifiedPanels,
-            t: minifiedTracks
-        };
+			p: minifiedPanels,
+			t: minifiedTracks
+		};
 	}
 
 	private static expandGenomeBrowserState(min: MinifiedAppState['t']): ValisBrowserConfig['genomeBrowser'] {
@@ -144,10 +144,10 @@ export class AppStatePersistence {
 
 	private static minifySidebarState(state: ValisBrowserConfig['sidebar']): MinifiedAppState['s'] {
 		return {
-            t: state.viewType,
-            h: state.title,
-            p: state.viewProps,
-        };
+			t: state.viewType,
+			h: state.title,
+			p: state.viewProps,
+		};
 	}
 
 	private static expandSidebarState(min: MinifiedAppState['s']): ValisBrowserConfig['sidebar'] {

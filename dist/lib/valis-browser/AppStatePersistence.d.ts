@@ -18,9 +18,7 @@ export declare class AppStatePersistence {
     /**
      * @throws string on invalid state url
      */
-    static parseUrlHash(url: {
-        hash: string;
-    }): ValisBrowserConfig;
+    static parseUrlHash(hash: string): ValisBrowserConfig;
     private static serializeConfig;
     /**
      * @throws string on invalid serialized data

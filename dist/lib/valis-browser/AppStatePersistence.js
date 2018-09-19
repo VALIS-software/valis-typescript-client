@@ -27,8 +27,8 @@ var AppStatePersistence = /** @class */ (function () {
     /**
      * @throws string on invalid state url
      */
-    AppStatePersistence.parseUrlHash = function (url) {
-        var stateString = url.hash.substring(1);
+    AppStatePersistence.parseUrlHash = function (hash) {
+        var stateString = hash.substring(1);
         return this.deserializeConfig(stateString);
     };
     AppStatePersistence.serializeConfig = function (state) {
