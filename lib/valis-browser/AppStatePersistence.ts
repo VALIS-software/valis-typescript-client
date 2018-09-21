@@ -7,7 +7,8 @@ export type ValisBrowserConfig = {
 		viewType: SidebarViewType,
 		title?: string,
 		viewProps?: any,
-	}
+	},
+	headerVisible?: boolean, // true if omitted
 }
 
 export enum SidebarViewType {
@@ -33,7 +34,9 @@ type MinifiedAppState = {
 		h?: string,
 		/** Sidebar view props */
 		p?: any,
-	}
+	},
+	/** Header visible (default visible)  */
+	hv?: number // 0 hidden, 1 visible
 }
 
 
@@ -55,9 +58,12 @@ export class AppStatePersistence {
 	}
 
 	private static serializeConfig(state: ValisBrowserConfig): string {
+		let headerVisible = (state.headerVisible != null) ? state.headerVisible : true;
+
 		let minifiedState: MinifiedAppState = {
 			t: this.minifyGenomeBrowserState(state.genomeBrowser),
-			s: this.minifySidebarState(state.sidebar)
+			s: this.minifySidebarState(state.sidebar),
+			hv: headerVisible ? 1 : 0,
 		};
 
 		let jsonString = JSON.stringify(minifiedState);
@@ -79,7 +85,8 @@ export class AppStatePersistence {
 
 		let expandedState: ValisBrowserConfig = {
 			genomeBrowser: this.expandGenomeBrowserState(minifiedState.t),
-			sidebar: this.expandSidebarState(minifiedState.s)
+			sidebar: this.expandSidebarState(minifiedState.s),
+			headerVisible: (minifiedState.hv != null) ? (!!minifiedState.hv) : true,
 		};
 
 		return expandedState;
