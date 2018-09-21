@@ -92,6 +92,10 @@ class QueryBuilder {
     this.query.filters['info.outtype'] = outType;
   }
 
+  filterPatientBarCode(outType: any) {
+    this.query.filters['info.patient_barcodes'] = outType;
+  }
+
   filterStartBp(start: any) {
     if (this.query.type !== QueryType.GENOME) {
       throw new Error('filterStartBp is only available for an Genome Query.');

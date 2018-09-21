@@ -18,4 +18,7 @@ var Strand_1 = require("./lib/gff3/Strand");
 exports.Strand = Strand_1.default;
 var Gff3Parser_1 = require("./lib/gff3/Gff3Parser");
 exports.Gff3Parser = Gff3Parser_1.default;
+var AppStatePersistence_1 = require("./lib/valis-browser/AppStatePersistence");
+exports.AppStatePersistence = AppStatePersistence_1.AppStatePersistence;
+exports.SidebarViewType = AppStatePersistence_1.SidebarViewType;
 //# sourceMappingURL=index.js.map

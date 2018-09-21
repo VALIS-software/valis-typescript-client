@@ -88,6 +88,9 @@ var QueryBuilder = /** @class */ (function () {
     QueryBuilder.prototype.filterOutType = function (outType) {
         this.query.filters['info.outtype'] = outType;
     };
+    QueryBuilder.prototype.filterPatientBarCode = function (outType) {
+        this.query.filters['info.patient_barcodes'] = outType;
+    };
     QueryBuilder.prototype.filterStartBp = function (start) {
         if (this.query.type !== QueryType.GENOME) {
             throw new Error('filterStartBp is only available for an Genome Query.');

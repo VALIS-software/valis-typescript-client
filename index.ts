@@ -8,6 +8,7 @@ import { buildQueryParser, buildVariantQueryParser } from './lib/sirius/querypar
 import Strand from './lib/gff3/Strand';
 import Feature from './lib/gff3/Feature';
 import Gff3Parser from './lib/gff3/Gff3Parser';
+import { AppStatePersistence, SidebarViewType } from './lib/valis-browser/AppStatePersistence';
 
 export { 
     Canis, 
@@ -20,5 +21,7 @@ export {
     Feature,
     Gff3Parser,
     buildQueryParser,
-    buildVariantQueryParser
+    buildVariantQueryParser,
+    AppStatePersistence,
+    SidebarViewType
 }

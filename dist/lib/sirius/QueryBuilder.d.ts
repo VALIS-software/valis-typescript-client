@@ -21,6 +21,7 @@ declare class QueryBuilder {
     filterInfotypes(type: any): void;
     filterAssay(assay: any): void;
     filterOutType(outType: any): void;
+    filterPatientBarCode(outType: any): void;
     filterStartBp(start: any): void;
     filterEndBp(end: any): void;
     filterAffectedGene(gene: any): void;
