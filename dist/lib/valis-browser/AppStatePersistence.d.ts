@@ -6,6 +6,7 @@ export declare type ValisBrowserConfig = {
         title?: string;
         viewProps?: any;
     };
+    headerVisible?: boolean;
 };
 export declare enum SidebarViewType {
     None = 0,

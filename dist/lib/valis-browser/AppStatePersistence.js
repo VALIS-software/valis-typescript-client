@@ -32,9 +32,11 @@ var AppStatePersistence = /** @class */ (function () {
         return this.deserializeConfig(stateString);
     };
     AppStatePersistence.serializeConfig = function (state) {
+        var headerVisible = (state.headerVisible != null) ? state.headerVisible : true;
         var minifiedState = {
             t: this.minifyGenomeBrowserState(state.genomeBrowser),
-            s: this.minifySidebarState(state.sidebar)
+            s: this.minifySidebarState(state.sidebar),
+            hv: headerVisible ? 1 : 0,
         };
         var jsonString = JSON.stringify(minifiedState);
         var compressedString = LZString.compressToBase64(jsonString);
@@ -51,7 +53,8 @@ var AppStatePersistence = /** @class */ (function () {
         var minifiedState = JSON.parse(jsonString);
         var expandedState = {
             genomeBrowser: this.expandGenomeBrowserState(minifiedState.t),
-            sidebar: this.expandSidebarState(minifiedState.s)
+            sidebar: this.expandSidebarState(minifiedState.s),
+            headerVisible: (minifiedState.hv != null) ? (!!minifiedState.hv) : true,
         };
         return expandedState;
     };
