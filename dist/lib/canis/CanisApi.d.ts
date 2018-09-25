@@ -6,6 +6,7 @@ declare class Api {
     static getAnalysis(analysisId: string): Promise<Analysis>;
     static getDataset(id: string): Promise<Dataset>;
     static getJob(jobId: string): Promise<Job>;
+    static getFiles(jobId: string): Promise<Array<string>>;
 }
 declare class CanisObject {
     protected _clientProps: any;
@@ -23,6 +24,7 @@ declare class Job extends CanisObject {
     readonly jobId: string;
     readonly jobType: string;
     readonly auther: string;
+    getOutputFiles(): Promise<string[]>;
     getDefinition(): Promise<string>;
 }
 declare enum AnalysisParameterType {
@@ -68,6 +70,6 @@ declare class Dataset extends CanisObject {
     readonly datasetId: string;
     readonly sampleCount: string;
     getAnalyses(): Promise<Array<Analysis>>;
-    createAnalysis(type: AnalysisType, code?: string): Promise<Analysis>;
+    createAnalysis(name: string, type: AnalysisType, code?: string): Promise<Analysis>;
 }
-export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, Job, RunStatusType };
+export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType };

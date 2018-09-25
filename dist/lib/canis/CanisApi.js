@@ -50,6 +50,17 @@ var Api = /** @class */ (function () {
     Api.getJob = function (jobId) {
         return Api.getById(Job.resource, jobId, function (json) { return new Job(json); });
     };
+    Api.getFiles = function (jobId) {
+        var url = Api.apiUrl + "/files?jobId=" + jobId;
+        return axios_1.default({
+            method: 'get',
+            url: url,
+            headers: {},
+        }).then(function (a) {
+            var resultList = a.data.reverse();
+            return resultList;
+        });
+    };
     Api.apiUrl = '';
     return Api;
 }());
@@ -88,6 +99,16 @@ var CanisObject = /** @class */ (function () {
     };
     return CanisObject;
 }());
+var File = /** @class */ (function (_super) {
+    __extends(File, _super);
+    function File(json) {
+        return _super.call(this, json) || this;
+    }
+    File.prototype.uri = function () {
+        return '';
+    };
+    return File;
+}(CanisObject));
 var Job = /** @class */ (function (_super) {
     __extends(Job, _super);
     function Job(json) {
@@ -121,6 +142,9 @@ var Job = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Job.prototype.getOutputFiles = function () {
+        return Api.getFiles(this.id);
+    };
     Job.prototype.getDefinition = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -189,13 +213,13 @@ var Analysis = /** @class */ (function (_super) {
     });
     Object.defineProperty(Analysis.prototype, "parameters", {
         get: function () {
-            return this._clientProps.parameters;
+            return JSON.parse(this._clientProps.parameters);
         },
         enumerable: true,
         configurable: true
     });
     Analysis.prototype.createRun = function (name, parameters) {
-        var url = Api.apiUrl + "/jobs";
+        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId;
         return axios_1.default({
             method: 'post',
             url: url,
@@ -273,14 +297,14 @@ var Dataset = /** @class */ (function (_super) {
             });
         });
     };
-    Dataset.prototype.createAnalysis = function (type, code) {
+    Dataset.prototype.createAnalysis = function (name, type, code) {
         var url = Api.apiUrl + "/analyses";
         return axios_1.default({
             method: 'post',
             url: url,
             headers: {},
             data: {
-                name: 'New Analysis',
+                name: name,
                 code: code,
                 analysisType: AnalysisType[type],
                 datasetId: this.datasetId,
