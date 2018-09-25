@@ -140,6 +140,16 @@ var Job = /** @class */ (function (_super) {
     return Job;
 }(CanisObject));
 exports.Job = Job;
+var AnalysisParameterType;
+(function (AnalysisParameterType) {
+    AnalysisParameterType["GENE"] = "gene";
+    AnalysisParameterType["GENE_LIST"] = "gene-list";
+    AnalysisParameterType["NUMBER"] = "number";
+    AnalysisParameterType["NUMBER_RANGE"] = "number-range";
+    AnalysisParameterType["STRING"] = "string";
+    AnalysisParameterType["PICKLIST"] = "picklist";
+})(AnalysisParameterType || (AnalysisParameterType = {}));
+exports.AnalysisParameterType = AnalysisParameterType;
 var Analysis = /** @class */ (function (_super) {
     __extends(Analysis, _super);
     function Analysis(json) {
@@ -177,7 +187,14 @@ var Analysis = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Analysis.prototype.createRun = function (name) {
+    Object.defineProperty(Analysis.prototype, "parameters", {
+        get: function () {
+            return this._clientProps.parameters;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Analysis.prototype.createRun = function (name, parameters) {
         var url = Api.apiUrl + "/jobs";
         return axios_1.default({
             method: 'post',
@@ -185,9 +202,9 @@ var Analysis = /** @class */ (function (_super) {
             headers: {},
             data: {
                 name: name || this.name,
-                code: 'import time; print("hello"); time.sleep(10)',
+                code: this.code,
                 type: 'RDD',
-                args: ''
+                args: parameters
             }
         }).then(function (a) {
             return new Job(a.data);

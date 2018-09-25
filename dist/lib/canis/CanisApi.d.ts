@@ -25,6 +25,21 @@ declare class Job extends CanisObject {
     readonly auther: string;
     getDefinition(): Promise<string>;
 }
+declare enum AnalysisParameterType {
+    GENE = "gene",
+    GENE_LIST = "gene-list",
+    NUMBER = "number",
+    NUMBER_RANGE = "number-range",
+    STRING = "string",
+    PICKLIST = "picklist"
+}
+declare type AnalysisParameterValue = number[] | string | number | string[];
+declare type AnalysisParameter = {
+    name: string;
+    type: AnalysisParameterType;
+    range?: number[];
+    options?: string[][];
+};
 declare class Analysis extends CanisObject {
     static readonly resource: string;
     constructor(json: any);
@@ -32,7 +47,8 @@ declare class Analysis extends CanisObject {
     readonly datasetId: string;
     readonly analysisType: AnalysisType;
     code: string;
-    createRun(name?: string): Promise<Job>;
+    readonly parameters: Map<string, AnalysisParameterValue>;
+    createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job>;
     getRuns(withStatus?: RunStatusType): Promise<Array<Job>>;
 }
 declare enum RunStatusType {
@@ -54,4 +70,4 @@ declare class Dataset extends CanisObject {
     getAnalyses(): Promise<Array<Analysis>>;
     createAnalysis(type: AnalysisType, code?: string): Promise<Analysis>;
 }
-export { Api, Dataset, AnalysisType, Analysis, Job, RunStatusType };
+export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, Job, RunStatusType };
