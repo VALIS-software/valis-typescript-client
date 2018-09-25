@@ -112,6 +112,25 @@ class Job extends CanisObject {
     }
 }
 
+
+enum AnalysisParameterType {
+    GENE = 'gene',
+    GENE_LIST = 'gene-list',
+    NUMBER = 'number',
+    NUMBER_RANGE = 'number-range',
+    STRING = 'string',
+    PICKLIST = 'picklist',
+}
+
+type AnalysisParameterValue = number[] | string | number | string[];
+
+type AnalysisParameter = {
+    name: string,
+    type: AnalysisParameterType,
+    range?: number[],
+    options?: string[][],
+}
+
 class Analysis extends CanisObject {
     public static readonly resource = 'analyses';
     constructor(json: any) {
@@ -139,7 +158,11 @@ class Analysis extends CanisObject {
         this._clientProps.code = code;
     }
 
-    createRun(name?: string): Promise<Job> {
+    get parameters(): Map<string, AnalysisParameterValue> {
+        return this._clientProps.parameters;
+    }
+
+    createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job> {
         let url = `${Api.apiUrl}/jobs`;
         return axios({
                 method: 'post',
@@ -147,9 +170,9 @@ class Analysis extends CanisObject {
                 headers: {},
                 data: {
                     name: name || this.name,
-                    code: 'import time; print("hello"); time.sleep(10)', //TODO: this.code,
+                    code: this.code,
                     type: 'RDD',
-                    args: ''
+                    args: parameters
                 }
             }).then((a : any) => {
                 return new Job(a.data);
@@ -166,7 +189,7 @@ class Analysis extends CanisObject {
             }).then((a : any) => {
                 return a.data.map((analysisJson: any) => {
                     return new Job(analysisJson);
-                });
+            });
         });
     }
 }
@@ -184,21 +207,6 @@ enum AnalysisType {
     PARSER,
 }
 
-enum AnalysisParameterType {
-    GENE,
-    GENE_LIST,
-    NUMBER,
-    NUMBER_RANGE,
-    STRING,
-    PICKLIST,
-}
-
-type AnalysisParameter = {
-    name: string,
-    type: AnalysisParameterType,
-    range?: number[],
-    options?: string[][],
-}
 
 class Dataset extends CanisObject {
     public static readonly resource = 'datasets';
