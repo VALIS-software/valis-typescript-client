@@ -159,7 +159,7 @@ class Analysis extends CanisObject {
     }
 
     get parameters(): Map<string, AnalysisParameterValue> {
-        return this._clientProps.parameters;
+        return JSON.parse(this._clientProps.parameters);
     }
 
     createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job> {
@@ -253,4 +253,4 @@ class Dataset extends CanisObject {
     }
 }
 
-export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, Job, RunStatusType }
+export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType }
