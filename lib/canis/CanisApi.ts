@@ -184,6 +184,22 @@ enum AnalysisType {
     PARSER,
 }
 
+enum AnalysisParameterType {
+    GENE,
+    GENE_LIST,
+    NUMBER,
+    NUMBER_RANGE,
+    STRING,
+    PICKLIST,
+}
+
+type AnalysisParameter = {
+    name: string,
+    type: AnalysisParameterType,
+    range?: number[],
+    options?: string[][],
+}
+
 class Dataset extends CanisObject {
     public static readonly resource = 'datasets';
     constructor(json: any) {
@@ -229,4 +245,4 @@ class Dataset extends CanisObject {
     }
 }
 
-export { Api, Dataset, AnalysisType, Analysis, Job, RunStatusType }
+export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, Job, RunStatusType }
