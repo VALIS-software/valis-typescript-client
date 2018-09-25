@@ -30,6 +30,6 @@
     "jest": "^23.6.0",
     "ts-jest": "^23.1.4",
     "lz-string": "1.4.x",
-    "genome-browser": "git+https://github.com/VALIS-software/Genome-Browser.git"
+    "genome-browser": "github.com:VALIS-software/Genome-Browser"
   }
 }
