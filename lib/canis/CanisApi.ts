@@ -203,7 +203,7 @@ class Analysis extends CanisObject {
                     name: name || this.name,
                     code: this.code,
                     type: 'RDD',
-                    args: JSON.stringify(paramsObj)
+                    args: paramsObj
                 }
             }).then((a : any) => {
                 return new Job(a.data);

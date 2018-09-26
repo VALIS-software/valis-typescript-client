@@ -269,7 +269,7 @@ var Analysis = /** @class */ (function (_super) {
                 name: name || this.name,
                 code: this.code,
                 type: 'RDD',
-                args: JSON.stringify(paramsObj)
+                args: paramsObj
             }
         }).then(function (a) {
             return new Job(a.data);
