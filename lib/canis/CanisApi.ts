@@ -212,7 +212,7 @@ class Analysis extends CanisObject {
 
     getRuns(withStatus?: RunStatusType) : Promise<Array<Job>> {
         const status = withStatus ? `&withStatus=${withStatus}` : '';
-        let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}${status}}`;
+        let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}${status}`;
         return axios({
                 method: 'get',
                 url: url,

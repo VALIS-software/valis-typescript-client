@@ -277,7 +277,7 @@ var Analysis = /** @class */ (function (_super) {
     };
     Analysis.prototype.getRuns = function (withStatus) {
         var status = withStatus ? "&withStatus=" + withStatus : '';
-        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId + status + "}";
+        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId + status;
         return axios_1.default({
             method: 'get',
             url: url,
