@@ -190,6 +190,11 @@ class Analysis extends CanisObject {
 
     createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job> {
         let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}`;
+        
+        let paramsObj: any = {};
+        for (let [k,v] of parameters) {
+            paramsObj[k] = v;
+        }
         return axios({
                 method: 'post',
                 url: url,
@@ -198,7 +203,7 @@ class Analysis extends CanisObject {
                     name: name || this.name,
                     code: this.code,
                     type: 'RDD',
-                    args: JSON.stringify(parameters)
+                    args: JSON.stringify(paramsObj)
                 }
             }).then((a : any) => {
                 return new Job(a.data);

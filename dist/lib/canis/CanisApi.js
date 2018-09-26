@@ -12,6 +12,32 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = require("axios");
 var Api = /** @class */ (function () {
@@ -219,7 +245,22 @@ var Analysis = /** @class */ (function (_super) {
         configurable: true
     });
     Analysis.prototype.createRun = function (name, parameters) {
+        var e_1, _a;
         var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId;
+        var paramsObj = {};
+        try {
+            for (var parameters_1 = __values(parameters), parameters_1_1 = parameters_1.next(); !parameters_1_1.done; parameters_1_1 = parameters_1.next()) {
+                var _b = __read(parameters_1_1.value, 2), k = _b[0], v = _b[1];
+                paramsObj[k] = v;
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (parameters_1_1 && !parameters_1_1.done && (_a = parameters_1.return)) _a.call(parameters_1);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
         return axios_1.default({
             method: 'post',
             url: url,
@@ -228,7 +269,7 @@ var Analysis = /** @class */ (function (_super) {
                 name: name || this.name,
                 code: this.code,
                 type: 'RDD',
-                args: JSON.stringify(parameters)
+                args: JSON.stringify(paramsObj)
             }
         }).then(function (a) {
             return new Job(a.data);
