@@ -2,8 +2,7 @@
  * Temporary API for development
  */
 import axios, { AxiosRequestConfig, CancelToken } from 'axios';
-
-import { TileContent } from './AnnotationTileset';
+import { TileContent } from "genome-browser/@types/model/AnnotationTileset";
 
 class SiriusApi {
 
