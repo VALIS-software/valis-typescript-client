@@ -26,7 +26,7 @@ declare class SiriusApi {
     static getTracks(): Promise<any>;
     static getTrackInfo(): Promise<any>;
     static getDistinctValues(key: string, query: any): Promise<any>;
-    static getDetails(dataID: string): Promise<any>;
+    static getDetails(dataID: string, userFileID?: string): Promise<any>;
     static getQueryResults(query: any, full?: boolean, startIdx?: number, endIdx?: number): Promise<any>;
     static getAllVariantTrackData(contig: string, startBp: number, endBp: number): Promise<any>;
     static getVariantTrackData(contig: string, startBp: number, endBp: number, query: any): Promise<any>;

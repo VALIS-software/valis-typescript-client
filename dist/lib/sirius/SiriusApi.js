@@ -179,8 +179,12 @@ var SiriusApi = /** @class */ (function () {
             return data.data;
         });
     };
-    SiriusApi.getDetails = function (dataID) {
-        return axios_1.default.get(this.apiUrl + "/details/" + dataID).then(function (data) {
+    SiriusApi.getDetails = function (dataID, userFileID) {
+        var requestUrl = this.apiUrl + "/details/" + dataID;
+        if (userFileID) {
+            requestUrl = requestUrl + "?userFileID=" + userFileID;
+        }
+        return axios_1.default.get(requestUrl).then(function (data) {
             return data.data;
         });
     };
