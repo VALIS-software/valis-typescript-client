@@ -11,12 +11,6 @@ var __values = (this && this.__values) || function (o) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var LZString = require("lz-string");
-var SidebarViewType;
-(function (SidebarViewType) {
-    SidebarViewType[SidebarViewType["None"] = 0] = "None";
-    SidebarViewType[SidebarViewType["EntityDetails"] = 1] = "EntityDetails";
-    SidebarViewType[SidebarViewType["SearchResults"] = 2] = "SearchResults";
-})(SidebarViewType = exports.SidebarViewType || (exports.SidebarViewType = {}));
 var AppStatePersistence = /** @class */ (function () {
     function AppStatePersistence() {
     }

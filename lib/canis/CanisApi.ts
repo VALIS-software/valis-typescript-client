@@ -42,6 +42,18 @@ class Api {
     static getJob(jobId: string) : Promise<Job> {
         return Api.getById(Job.resource, jobId, (json: any) => new Job(json)) as Promise<Job>;
     }
+
+    static getFiles(jobId: string) : Promise<Array<string>> {
+        let url = `${Api.apiUrl}/files?jobId=${jobId}`;
+        return axios({
+                method: 'get',
+                url: url,
+                headers: {},
+            }).then((a) => {
+                const resultList : Array<any> = a.data.reverse();
+                return resultList;
+        });
+    }
 }
 
 
@@ -75,6 +87,16 @@ class CanisObject {
     }
 }
 
+class File extends CanisObject {
+    constructor(json: any) {
+        super(json);
+    }
+
+    uri(): string {
+        return '';
+    }
+}
+
 class Job extends CanisObject {
     public static readonly resource = 'jobs';
     constructor(json: any) {
@@ -95,6 +117,10 @@ class Job extends CanisObject {
 
     get auther() : string {
         return this._savedProps.author;
+    }
+
+    getOutputFiles(): Promise<string[]> {
+        return Api.getFiles(this.id);
     }
 
     getDefinition() : Promise<string> {
@@ -159,11 +185,16 @@ class Analysis extends CanisObject {
     }
 
     get parameters(): Map<string, AnalysisParameterValue> {
-        return this._clientProps.parameters;
+        return JSON.parse(this._clientProps.parameters);
     }
 
     createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job> {
-        let url = `${Api.apiUrl}/jobs`;
+        let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}`;
+        
+        let paramsObj: any = {};
+        for (let [k,v] of parameters) {
+            paramsObj[k] = v;
+        }
         return axios({
                 method: 'post',
                 url: url,
@@ -172,7 +203,7 @@ class Analysis extends CanisObject {
                     name: name || this.name,
                     code: this.code,
                     type: 'RDD',
-                    args: parameters
+                    args: paramsObj
                 }
             }).then((a : any) => {
                 return new Job(a.data);
@@ -181,7 +212,7 @@ class Analysis extends CanisObject {
 
     getRuns(withStatus?: RunStatusType) : Promise<Array<Job>> {
         const status = withStatus ? `&withStatus=${withStatus}` : '';
-        let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}${status}}`;
+        let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}${status}`;
         return axios({
                 method: 'get',
                 url: url,
@@ -235,14 +266,14 @@ class Dataset extends CanisObject {
         });
     }
 
-    createAnalysis(type: AnalysisType, code?: string) : Promise<Analysis> {
+    createAnalysis(name: string, type: AnalysisType, code?: string) : Promise<Analysis> {
         let url = `${Api.apiUrl}/analyses`;
         return axios({
                 method: 'post',
                 url: url,
                 headers: {},
                 data: {
-                    name: 'New Analysis',
+                    name: name,
                     code: code,
                     analysisType: AnalysisType[type],
                     datasetId: this.datasetId,
@@ -253,4 +284,4 @@ class Dataset extends CanisObject {
     }
 }
 
-export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, Job, RunStatusType }
+export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType }

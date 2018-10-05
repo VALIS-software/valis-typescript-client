@@ -1,4 +1,4 @@
-import { TileContent } from './AnnotationTileset';
+import { TileContent } from "genome-browser/@types/model/AnnotationTileset";
 declare class SiriusApi {
     static apiUrl: string;
     private static minMaxCache;

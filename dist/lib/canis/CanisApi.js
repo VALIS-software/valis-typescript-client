@@ -12,6 +12,32 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __values = (this && this.__values) || function (o) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator], i = 0;
+    if (m) return m.call(o);
+    return {
+        next: function () {
+            if (o && i >= o.length) o = void 0;
+            return { value: o && o[i++], done: !o };
+        }
+    };
+};
+var __read = (this && this.__read) || function (o, n) {
+    var m = typeof Symbol === "function" && o[Symbol.iterator];
+    if (!m) return o;
+    var i = m.call(o), r, ar = [], e;
+    try {
+        while ((n === void 0 || n-- > 0) && !(r = i.next()).done) ar.push(r.value);
+    }
+    catch (error) { e = { error: error }; }
+    finally {
+        try {
+            if (r && !r.done && (m = i["return"])) m.call(i);
+        }
+        finally { if (e) throw e.error; }
+    }
+    return ar;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 var axios_1 = require("axios");
 var Api = /** @class */ (function () {
@@ -49,6 +75,17 @@ var Api = /** @class */ (function () {
     };
     Api.getJob = function (jobId) {
         return Api.getById(Job.resource, jobId, function (json) { return new Job(json); });
+    };
+    Api.getFiles = function (jobId) {
+        var url = Api.apiUrl + "/files?jobId=" + jobId;
+        return axios_1.default({
+            method: 'get',
+            url: url,
+            headers: {},
+        }).then(function (a) {
+            var resultList = a.data.reverse();
+            return resultList;
+        });
     };
     Api.apiUrl = '';
     return Api;
@@ -88,6 +125,16 @@ var CanisObject = /** @class */ (function () {
     };
     return CanisObject;
 }());
+var File = /** @class */ (function (_super) {
+    __extends(File, _super);
+    function File(json) {
+        return _super.call(this, json) || this;
+    }
+    File.prototype.uri = function () {
+        return '';
+    };
+    return File;
+}(CanisObject));
 var Job = /** @class */ (function (_super) {
     __extends(Job, _super);
     function Job(json) {
@@ -121,6 +168,9 @@ var Job = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Job.prototype.getOutputFiles = function () {
+        return Api.getFiles(this.id);
+    };
     Job.prototype.getDefinition = function () {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -189,13 +239,28 @@ var Analysis = /** @class */ (function (_super) {
     });
     Object.defineProperty(Analysis.prototype, "parameters", {
         get: function () {
-            return this._clientProps.parameters;
+            return JSON.parse(this._clientProps.parameters);
         },
         enumerable: true,
         configurable: true
     });
     Analysis.prototype.createRun = function (name, parameters) {
-        var url = Api.apiUrl + "/jobs";
+        var e_1, _a;
+        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId;
+        var paramsObj = {};
+        try {
+            for (var parameters_1 = __values(parameters), parameters_1_1 = parameters_1.next(); !parameters_1_1.done; parameters_1_1 = parameters_1.next()) {
+                var _b = __read(parameters_1_1.value, 2), k = _b[0], v = _b[1];
+                paramsObj[k] = v;
+            }
+        }
+        catch (e_1_1) { e_1 = { error: e_1_1 }; }
+        finally {
+            try {
+                if (parameters_1_1 && !parameters_1_1.done && (_a = parameters_1.return)) _a.call(parameters_1);
+            }
+            finally { if (e_1) throw e_1.error; }
+        }
         return axios_1.default({
             method: 'post',
             url: url,
@@ -204,7 +269,7 @@ var Analysis = /** @class */ (function (_super) {
                 name: name || this.name,
                 code: this.code,
                 type: 'RDD',
-                args: parameters
+                args: paramsObj
             }
         }).then(function (a) {
             return new Job(a.data);
@@ -212,7 +277,7 @@ var Analysis = /** @class */ (function (_super) {
     };
     Analysis.prototype.getRuns = function (withStatus) {
         var status = withStatus ? "&withStatus=" + withStatus : '';
-        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId + status + "}";
+        var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId + status;
         return axios_1.default({
             method: 'get',
             url: url,
@@ -273,14 +338,14 @@ var Dataset = /** @class */ (function (_super) {
             });
         });
     };
-    Dataset.prototype.createAnalysis = function (type, code) {
+    Dataset.prototype.createAnalysis = function (name, type, code) {
         var url = Api.apiUrl + "/analyses";
         return axios_1.default({
             method: 'post',
             url: url,
             headers: {},
             data: {
-                name: 'New Analysis',
+                name: name,
                 code: code,
                 analysisType: AnalysisType[type],
                 datasetId: this.datasetId,

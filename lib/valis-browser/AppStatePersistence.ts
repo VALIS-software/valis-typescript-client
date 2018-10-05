@@ -1,21 +1,5 @@
 import LZString = require("lz-string");
-import { GenomeBrowserConfiguration } from "genome-browser/src/GenomeBrowser";
-
-export type ValisBrowserConfig = {
-	genomeBrowser: GenomeBrowserConfiguration,
-	sidebar: {
-		viewType: SidebarViewType,
-		title?: string,
-		viewProps?: any,
-	},
-	headerVisible?: boolean, // true if omitted
-}
-
-export enum SidebarViewType {
-	None = 0,
-	EntityDetails = 1,
-	SearchResults = 2,
-}
+import ValisBrowserConfig, { SidebarViewType } from "./ValisBrowserConfig";
 
 // A minified version of ValisBrowserConfig
 type MinifiedAppState = {
