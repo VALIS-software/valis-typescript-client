@@ -220,8 +220,12 @@ class SiriusApi {
         });
     }
 
-    static getDetails(dataID: string) {
-        return axios.get(`${this.apiUrl}/details/${dataID}`).then(data => {
+    static getDetails(dataID: string, userFileID?: string) {
+        var requestUrl = this.apiUrl + "/details/" + dataID;
+        if (userFileID) {
+            requestUrl = requestUrl + "?userFileID=" + userFileID;
+        }
+        return axios.get(requestUrl).then(data => {
             return data.data;
         });
     }
