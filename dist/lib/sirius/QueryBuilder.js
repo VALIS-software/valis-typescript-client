@@ -68,6 +68,9 @@ var QueryBuilder = /** @class */ (function () {
     QueryBuilder.prototype.filterName = function (name) {
         this.query.filters.name = name;
     };
+    QueryBuilder.prototype.filterPathway = function (name) {
+        this.query.filters.pathway = name;
+    };
     QueryBuilder.prototype.filterMaxPValue = function (pvalue) {
         this.query.filters['info.p-value'] = { '<': pvalue };
     };

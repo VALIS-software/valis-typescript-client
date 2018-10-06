@@ -131,6 +131,11 @@ function buildGeneQuery(parsePath: ParsedToken[]): any {
         builder.filterType("gene");
         builder.addArithmeticIntersect(variantQuery);
         return builder.build();
+    } else if (token.rule === 'IN_PATHWAY_T') {
+        const pathwayName = STRIP_QUOTES(parsePath[1].value);
+        builder.newGenomeQuery();
+        builder.filterPathway(pathwayName);
+        return builder.build();
     }
 }
 
@@ -400,6 +405,8 @@ function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): Que
     terminals.set('TRAIT_T', /trait/g);
     terminals.set('NEAR', /near/g);
     terminals.set('IN', /in/g);
+    terminals.set('IN_PATHWAY_T', /in pathway/g);
+    terminals.set('PATHWAY', /"(.+?)"/g);
     terminals.set('PROMOTER', /promoters/g);
     terminals.set('ENHANCER', /enhancers/g);
     terminals.set('TARGET', /"(.+?)"/g);
@@ -407,16 +414,15 @@ function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): Que
     terminals.set('EQTL', /eqtl/g);
     terminals.set('NAMED', /named/g);
     terminals.set('TUMOR_SITE', /"(.+?)"/g);
-    terminals.set('PATIENT_T', /patient/g);
     terminals.set('WITH_TUMOR', /with tumor/g);
     terminals.set('RS_T', /rs\d+$/g);
     terminals.set('NUMBER', /^\d+$/g);
 
     const expansions = new Map<Rule, Rule>();
-
-    expansions.set('NAMED_GENE_OR_INFLUENCEING_TRAIT', [ANY, 'INFLUENCING_TRAIT', 'NAMED_GENE']);
-    expansions.set('INFLUENCING_GENE_OR_NAMED_RS', [ANY, 'INFLUENCING_GENE', 'NAMED_SNP_RS']);
-    expansions.set('INFLUENCING_TRAIT_OR_NAMED_RS', [ANY, 'INFLUENCING_TRAIT', 'NAMED_SNP_RS']);
+    expansions.set('GENE_IN_PATHWAY', [ALL, 'IN_PATHWAY_T', 'PATHWAY']);
+    expansions.set('GENE_QUERY_TYPE', [ANY, 'INFLUENCING_TRAIT', 'NAMED_GENE', 'GENE_IN_PATHWAY']);
+    expansions.set('EQTL_QUERY_TYPE', [ANY, 'INFLUENCING_GENE', 'NAMED_SNP_RS']);
+    expansions.set('VARIANT_QUERY_TYPE', [ANY, 'INFLUENCING_TRAIT', 'NAMED_SNP_RS']);
     expansions.set('INFLUENCING_TRAIT', [ALL, 'INFLUENCING', 'TRAIT']);
     expansions.set('INFLUENCING_GENE', [ALL, 'INFLUENCING', 'GENE']);
     expansions.set('NAMED_GENE', [ALL, 'NAMED', 'GENE']);
@@ -424,14 +430,12 @@ function buildQueryParser(suggestions: Map<Rule, SuggestionResultProvider>): Que
     expansions.set('ANNOTATION_TYPE', [ANY, 'PROMOTER', 'ENHANCER']);
     expansions.set('CELL_ANNOTATION', [ALL, 'ANNOTATION_TYPE', 'OF', 'TARGET', 'IN', 'CELL_TYPE']);
     // The root query rules
-    expansions.set('VARIANT_QUERY', [ALL, 'VARIANTS', 'INFLUENCING_TRAIT_OR_NAMED_RS', EOF]);
-    expansions.set('GENE_QUERY', [ALL, 'GENE_T', 'NAMED_GENE_OR_INFLUENCEING_TRAIT', EOF]);
+    expansions.set('VARIANT_QUERY', [ALL, 'VARIANTS', 'VARIANT_QUERY_TYPE', EOF]);
+    expansions.set('GENE_QUERY', [ALL, 'GENE_T', 'GENE_QUERY_TYPE', EOF]);
     expansions.set('TRAIT_QUERY', [ALL, 'TRAIT_T', 'TRAIT', EOF]);
-    expansions.set('EQTL_QUERY', [ALL, 'EQTL', 'INFLUENCING_GENE_OR_NAMED_RS', EOF]);
+    expansions.set('EQTL_QUERY', [ALL, 'EQTL', 'EQTL_QUERY_TYPE', EOF]);
     expansions.set('ANNOTATION_QUERY', [ALL, 'CELL_ANNOTATION', EOF]);
-    // expansions.set('PATIENT_QUERY', [ALL, 'PATIENT_T', 'WITH_TUMOR', 'TUMOR_SITE', EOF]);
-    // expansions.set('SNP_RS_QUERY', [ALL, 'RS_T', EOF]);
-    expansions.set('ROOT', [ANY, 'VARIANT_QUERY', 'GENE_QUERY', 'TRAIT_QUERY', 'EQTL_QUERY', 'ANNOTATION_QUERY']);
+    expansions.set('ROOT', [ANY, 'VARIANT_QUERY', 'GENE_QUERY', 'EQTL_QUERY', 'ANNOTATION_QUERY', 'TRAIT_QUERY']);
 
     // return empty result for rs prefix queries
     suggestions.set('RS_T', (q: string, num: number) => new Promise((resolve, reject) => resolve([])));
@@ -465,7 +469,7 @@ function buildVariantQueryParser(suggestions: Map<Rule, SuggestionResultProvider
     expansions.set('REGION_QUERY', [ANY, 'GENE_QUERY', 'EQTL_QUERY', 'ANNOTATION_QUERY'])
     expansions.set('NAMED_GENE_OR_INFLUENCEING_TRAIT', [ANY, 'INFLUENCING_TRAIT', 'NAMED_GENE']);
     expansions.set('VARIANT_OF_QUERY', [ALL, 'OF', 'REGION_QUERY']);
-    expansions.set('INFLUENCING_GENE_OR_NAMED_RS', [ANY, 'INFLUENCING_GENE', 'NAMED_SNP_RS']);
+    expansions.set('EQTL_QUERY_TYPE', [ANY, 'INFLUENCING_GENE', 'NAMED_SNP_RS']);
     expansions.set('INFLUENCING_TRAIT_OR_NAMED_RS', [ANY, 'INFLUENCING_TRAIT', 'NAMED_SNP_RS', 'VARIANT_OF_QUERY']);
     expansions.set('INFLUENCING_TRAIT', [ALL, 'INFLUENCING', 'TRAIT']);
     expansions.set('INFLUENCING_GENE', [ALL, 'INFLUENCING', 'GENE']);
@@ -476,7 +480,7 @@ function buildVariantQueryParser(suggestions: Map<Rule, SuggestionResultProvider
     // The root query rules
     expansions.set('GENE_QUERY', [ALL, 'GENE_T', 'NAMED_GENE_OR_INFLUENCEING_TRAIT', EOF]);
     expansions.set('TRAIT_QUERY', [ALL, 'TRAIT_T', 'TRAIT', EOF]);
-    expansions.set('EQTL_QUERY', [ALL, 'EQTL', 'INFLUENCING_GENE_OR_NAMED_RS', EOF]);
+    expansions.set('EQTL_QUERY', [ALL, 'EQTL', 'EQTL_QUERY_TYPE', EOF]);
     expansions.set('ANNOTATION_QUERY', [ALL, 'CELL_ANNOTATION', EOF]);
     // expansions.set('PATIENT_QUERY', [ALL, 'PATIENT_T', 'WITH_TUMOR', 'TUMOR_SITE', EOF]);
     // expansions.set('SNP_RS_QUERY', [ALL, 'RS_T', EOF]);

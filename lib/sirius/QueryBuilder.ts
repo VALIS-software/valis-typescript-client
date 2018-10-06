@@ -66,6 +66,10 @@ class QueryBuilder {
     this.query.filters.name = name;
   }
 
+  filterPathway(name: any) {
+    this.query.filters.pathway = name;
+  }
+
   filterMaxPValue(pvalue: number) {
     this.query.filters['info.p-value'] = { '<': pvalue };
   }

@@ -1,0 +1,4 @@
+npm run build
+wait
+cp index.ts ../VALIS-frontend/node_modules/valis
+cp -r dist ../VALIS-frontend/node_modules/valis
