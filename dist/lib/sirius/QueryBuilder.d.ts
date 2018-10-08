@@ -15,7 +15,7 @@ declare class QueryBuilder {
     filterContig(contig: any): void;
     filterLength(length: any): void;
     filterName(name: any): void;
-    filterPathway(name: any): void;
+    filterPathway(pathways: any): void;
     filterMaxPValue(pvalue: number): void;
     filterBiosample(biosample: any): void;
     filterTargets(targets: Array<any>): void;
