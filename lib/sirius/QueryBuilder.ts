@@ -181,6 +181,17 @@ class QueryBuilder {
     this.query.arithmetics.push(ar);
   }
 
+  addArithmeticDiff(genomeQuery: any) {
+    if (this.query.type !== QueryType.GENOME) {
+      throw new Error('Arithmetic is only available for an Genome Query.');
+    }
+    const ar = {
+      'operator': 'diff',
+      'target_queries': [genomeQuery],
+    }
+    this.query.arithmetics.push(ar);
+  }
+
   setSpecialGWASQuery() {
     if (this.query.type !== QueryType.GENOME) {
       throw new Error('setSpecialGWASQuery should be applied to a Genome Query.');

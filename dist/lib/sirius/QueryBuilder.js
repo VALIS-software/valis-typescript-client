@@ -166,6 +166,16 @@ var QueryBuilder = /** @class */ (function () {
         };
         this.query.arithmetics.push(ar);
     };
+    QueryBuilder.prototype.addArithmeticDiff = function (genomeQuery) {
+        if (this.query.type !== QueryType.GENOME) {
+            throw new Error('Arithmetic is only available for an Genome Query.');
+        }
+        var ar = {
+            'operator': 'diff',
+            'target_queries': [genomeQuery],
+        };
+        this.query.arithmetics.push(ar);
+    };
     QueryBuilder.prototype.setSpecialGWASQuery = function () {
         var e_1, _a;
         if (this.query.type !== QueryType.GENOME) {

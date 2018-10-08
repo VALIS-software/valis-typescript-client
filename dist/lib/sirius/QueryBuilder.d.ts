@@ -34,6 +34,7 @@ declare class QueryBuilder {
     addArithmeticIntersect(genomeQuery: any): void;
     addArithmeticWindow(genomeQuery: any, windowSize?: number): void;
     addArithmeticUnion(genomeQuery: any): void;
+    addArithmeticDiff(genomeQuery: any): void;
     setSpecialGWASQuery(): void;
     setUserFileID(fileID: string): void;
     build(): any;
