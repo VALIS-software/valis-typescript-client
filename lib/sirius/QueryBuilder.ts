@@ -66,8 +66,8 @@ class QueryBuilder {
     this.query.filters.name = name;
   }
 
-  filterPathway(name: any) {
-    this.query.filters.pathway = name;
+  filterPathway(pathways: any) {
+    this.query.filters['info.kegg_pathways'] = pathways;
   }
 
   filterMaxPValue(pvalue: number) {
