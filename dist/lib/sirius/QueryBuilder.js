@@ -75,7 +75,7 @@ var QueryBuilder = /** @class */ (function () {
         this.query.filters['info.p-value'] = { '<': pvalue };
     };
     QueryBuilder.prototype.filterBiosample = function (biosample) {
-        if (biosample.length) {
+        if (Array.isArray(biosample)) {
             this.query.filters['info.biosample'] = { $in: biosample };
         }
         else {
@@ -116,7 +116,7 @@ var QueryBuilder = /** @class */ (function () {
         this.query.filters['info.variant_affected_genes'] = gene;
     };
     QueryBuilder.prototype.filterVariantTag = function (tag) {
-        if (tag.length) {
+        if (Array.isArray(tag)) {
             this.query.filters['info.variant_tags'] = { $in: tag };
         }
         else {

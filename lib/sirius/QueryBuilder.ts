@@ -75,7 +75,7 @@ class QueryBuilder {
   }
 
   filterBiosample(biosample: any) {
-    if (biosample.length) {
+    if (Array.isArray(biosample)) {
       this.query.filters['info.biosample'] = { $in : biosample };
     } else {
       this.query.filters['info.biosample'] = biosample;
@@ -124,7 +124,7 @@ class QueryBuilder {
   }
 
   filterVariantTag(tag: any) {
-    if (tag.length) {
+    if (Array.isArray(tag)) {
       this.query.filters['info.variant_tags'] = { $in : tag };
     } else {
       this.query.filters['info.variant_tags'] = tag;
