@@ -17,9 +17,9 @@ class SiriusApi {
 
     static loadAnnotations(
         contig: string,
-        macro: boolean,
         startBaseIndex: number,
         span: number,
+        macro: boolean,
     ): Promise<TileContent> {
         let jsonPath = `https://valis-tmp-data.firebaseapp.com/data/annotation/${contig}${macro ? '-macro' : ''}/${startBaseIndex},${span}.json`;
         return axios.get(jsonPath).then((a) => {
