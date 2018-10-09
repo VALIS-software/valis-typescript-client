@@ -75,7 +75,12 @@ var QueryBuilder = /** @class */ (function () {
         this.query.filters['info.p-value'] = { '<': pvalue };
     };
     QueryBuilder.prototype.filterBiosample = function (biosample) {
-        this.query.filters['info.biosample'] = biosample;
+        if (Array.isArray(biosample)) {
+            this.query.filters['info.biosample'] = { $in: biosample };
+        }
+        else {
+            this.query.filters['info.biosample'] = biosample;
+        }
     };
     QueryBuilder.prototype.filterTargets = function (targets) {
         if (targets.length > 0) {
@@ -111,8 +116,12 @@ var QueryBuilder = /** @class */ (function () {
         this.query.filters['info.variant_affected_genes'] = gene;
     };
     QueryBuilder.prototype.filterVariantTag = function (tag) {
-        var previous = this.query.filters['variant_tags'] || [];
-        this.query.filters['info.variant_tags'] = tag;
+        if (Array.isArray(tag)) {
+            this.query.filters['info.variant_tags'] = { $in: tag };
+        }
+        else {
+            this.query.filters['info.variant_tags'] = tag;
+        }
     };
     QueryBuilder.prototype.searchText = function (text) {
         this.query.filters.$text = text;
