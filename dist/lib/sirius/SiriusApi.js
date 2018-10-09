@@ -17,7 +17,7 @@ var axios_1 = require("axios");
 var SiriusApi = /** @class */ (function () {
     function SiriusApi() {
     }
-    SiriusApi.loadAnnotations = function (contig, macro, startBaseIndex, span) {
+    SiriusApi.loadAnnotations = function (contig, startBaseIndex, span, macro) {
         var jsonPath = "https://valis-tmp-data.firebaseapp.com/data/annotation/" + contig + (macro ? '-macro' : '') + "/" + startBaseIndex + "," + span + ".json";
         return axios_1.default.get(jsonPath).then(function (a) {
             return a.data;

@@ -3,7 +3,7 @@ declare class SiriusApi {
     static apiUrl: string;
     private static minMaxCache;
     private static suggestionsCache;
-    static loadAnnotations(contig: string, macro: boolean, startBaseIndex: number, span: number): Promise<TileContent>;
+    static loadAnnotations(contig: string, startBaseIndex: number, span: number, macro: boolean): Promise<TileContent>;
     static loadACGTSequence(contig: string, startBaseIndex: number, span: number, lodLevel: number): Promise<{
         array: Uint8Array;
         sequenceMinMax: {
