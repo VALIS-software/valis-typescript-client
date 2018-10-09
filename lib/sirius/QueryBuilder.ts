@@ -75,7 +75,11 @@ class QueryBuilder {
   }
 
   filterBiosample(biosample: any) {
-    this.query.filters['info.biosample'] = biosample;
+    if (biosample.length) {
+      this.query.filters['info.biosample'] = { $in : biosample };
+    } else {
+      this.query.filters['info.biosample'] = biosample;
+    }
   }
 
   filterTargets(targets: Array<any>) {
@@ -120,8 +124,11 @@ class QueryBuilder {
   }
 
   filterVariantTag(tag: any) {
-    const previous = this.query.filters['variant_tags'] || [];
-    this.query.filters['info.variant_tags'] = tag;
+    if (tag.length) {
+      this.query.filters['info.variant_tags'] = { $in : tag };
+    } else {
+      this.query.filters['info.variant_tags'] = tag;
+    }
   }
 
   searchText(text: string) {
