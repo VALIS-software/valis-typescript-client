@@ -98,7 +98,7 @@ var SiriusApi = /** @class */ (function () {
             return payloadArray;
         });
     };
-    SiriusApi.getContigInfoPromise = function () {
+    SiriusApi.getContigs = function () {
         if (this._contigInfoPromise == null) {
             // initialize the promise
             this._contigInfoPromise = axios_1.default.get(SiriusApi.apiUrl + "/contig_info").then(function (data) {
@@ -126,31 +126,6 @@ var SiriusApi = /** @class */ (function () {
             });
         }
         return this._contigInfoPromise;
-    };
-    SiriusApi.getContigInfo = function (contig) {
-        return this.getContigInfoPromise().then(function (infoMap) {
-            var info = infoMap[contig];
-            if (info == null) {
-                throw "No contig info available for \"" + contig + "\"";
-            }
-            else {
-                return info;
-            }
-        });
-    };
-    SiriusApi.getContigs = function () {
-        return this.getContigInfoPromise().then(function (infoMap) { return Object.keys(infoMap); });
-    };
-    SiriusApi.getContigsSorted = function () {
-        if (this._sortedContigsPromise == null) {
-            this._sortedContigsPromise = this.getContigs().then(function (contigs) {
-                var sortedNaturally = contigs.sort(function (a, b) {
-                    return a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' });
-                });
-                return sortedNaturally;
-            });
-        }
-        return this._sortedContigsPromise;
     };
     SiriusApi.getGraphs = function () {
         return axios_1.default.get(this.apiUrl + "/graphs").then(function (data) {

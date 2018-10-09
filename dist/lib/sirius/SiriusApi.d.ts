@@ -14,13 +14,12 @@ declare class SiriusApi {
     }>;
     static loadSignal(sequenceId: string, lodLevel: number, lodStartBaseIndex: number, lodSpan: number): Promise<Float32Array>;
     private static _contigInfoPromise;
-    private static getContigInfoPromise;
-    static getContigInfo(contig: string): Promise<{
-        length: number;
+    static getContigs(): Promise<{
+        [contig: string]: {
+            start: number;
+            length: number;
+        };
     }>;
-    static getContigs(): Promise<Array<string>>;
-    private static _sortedContigsPromise;
-    static getContigsSorted(): Promise<Array<string>>;
     static getGraphs(): Promise<any>;
     static getGraphData(graphId: string, annotationId1: string, annotationId2: string, startBp: number, endBp: number, samplingRate?: number): import("axios").AxiosPromise<any>;
     static getTracks(): Promise<any>;
