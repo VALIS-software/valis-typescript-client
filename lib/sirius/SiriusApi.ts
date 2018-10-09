@@ -27,11 +27,11 @@ class SiriusApi {
         });
     }
 
-    static loadACGTSubSequence(
+    static loadACGTSequence(
         contig: string,
+        startBaseIndex: number,
+        span: number,
         lodLevel: number,
-        lodStartBaseIndex: number,
-        lodSpan: number,
     ): Promise<{
         array: Uint8Array,
         sequenceMinMax: {
@@ -41,10 +41,12 @@ class SiriusApi {
         indicesPerBase: number,
     }> {
         let samplingDensity = (1 << lodLevel);
-        let startBasePair = samplingDensity * lodStartBaseIndex + 1;
-        let spanBasePair = lodSpan * samplingDensity;
+        let startBasePair = startBaseIndex + 1;
+        let spanBasePair = span;
         let endBasePair = startBasePair + spanBasePair - 1;
         let url = `${this.apiUrl}/datatracks/sequence/${contig}/${startBasePair}/${endBasePair}?sampling_rate=${samplingDensity}`;
+
+        let lodSpan = span / samplingDensity;
 
         return axios({
             method: 'get',
