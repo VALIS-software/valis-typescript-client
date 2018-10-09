@@ -23,13 +23,14 @@ var SiriusApi = /** @class */ (function () {
             return a.data;
         });
     };
-    SiriusApi.loadACGTSubSequence = function (contig, lodLevel, lodStartBaseIndex, lodSpan) {
+    SiriusApi.loadACGTSequence = function (contig, startBaseIndex, span, lodLevel) {
         var _this = this;
         var samplingDensity = (1 << lodLevel);
-        var startBasePair = samplingDensity * lodStartBaseIndex + 1;
-        var spanBasePair = lodSpan * samplingDensity;
+        var startBasePair = startBaseIndex + 1;
+        var spanBasePair = span;
         var endBasePair = startBasePair + spanBasePair - 1;
         var url = this.apiUrl + "/datatracks/sequence/" + contig + "/" + startBasePair + "/" + endBasePair + "?sampling_rate=" + samplingDensity;
+        var lodSpan = span / samplingDensity;
         return axios_1.default({
             method: 'get',
             url: url,
