@@ -20,6 +20,7 @@ declare class SiriusApi {
             length: number;
         };
     }>;
+    static getCanisApiUrl(): Promise<any>;
     static getGraphs(): Promise<any>;
     static getGraphData(graphId: string, annotationId1: string, annotationId2: string, startBp: number, endBp: number, samplingRate?: number): import("axios").AxiosPromise<any>;
     static getTracks(): Promise<any>;

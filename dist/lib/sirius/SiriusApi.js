@@ -128,6 +128,11 @@ var SiriusApi = /** @class */ (function () {
         }
         return this._contigInfoPromise;
     };
+    SiriusApi.getCanisApiUrl = function () {
+        return axios_1.default.get(this.apiUrl + "/canis_api").then(function (data) {
+            return data.data;
+        });
+    };
     SiriusApi.getGraphs = function () {
         return axios_1.default.get(this.apiUrl + "/graphs").then(function (data) {
             return data.data;

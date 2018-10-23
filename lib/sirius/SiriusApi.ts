@@ -162,6 +162,12 @@ class SiriusApi {
         return this._contigInfoPromise;
     }
 
+    static getCanisApiUrl() {
+        return axios.get(`${this.apiUrl}/canis_api`).then(data => {
+            return data.data;
+        });
+    }
+
     static getGraphs() {
         return axios.get(`${this.apiUrl}/graphs`).then(data => {
             return data.data;
