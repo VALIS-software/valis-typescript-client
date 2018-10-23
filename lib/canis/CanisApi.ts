@@ -61,6 +61,19 @@ class Api {
         return Api.getById(Job.resource, jobId, (json: any) => new Job(json)) as Promise<Job>;
     }
 
+    static getJobs(analysisId: string) : Promise<Array<Job>> {
+        let url = `${Api.apiUrl}/jobs?analysisId=${analysisId}`;
+        return axios({
+                method: 'get',
+                url: url,
+                headers: {},
+            }).then((a : any) => {
+                return a.data.map((analysisJson: any) => {
+                    return new Job(analysisJson);
+            });
+        });
+    }
+
     static getFiles(jobId: string) : Promise<Array<string>> {
         let url = `${Api.apiUrl}/files?jobId=${jobId}`;
         return axios({
@@ -86,8 +99,9 @@ class Application {
             method: 'post',
             url: url,
             headers: {},
+            data: paramsJson,
         }).then((a: any) => {
-            return Api.getJob(a.job_id);
+            return Api.getJob(a.data.job_id);
         });
     }
 }
@@ -319,4 +333,4 @@ class Dataset extends CanisObject {
     }
 }
 
-export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType }
+export { Api, Application, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType }

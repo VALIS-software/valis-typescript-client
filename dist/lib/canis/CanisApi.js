@@ -93,6 +93,18 @@ var Api = /** @class */ (function () {
     Api.getJob = function (jobId) {
         return Api.getById(Job.resource, jobId, function (json) { return new Job(json); });
     };
+    Api.getJobs = function (analysisId) {
+        var url = Api.apiUrl + "/jobs?analysisId=" + analysisId;
+        return axios_1.default({
+            method: 'get',
+            url: url,
+            headers: {},
+        }).then(function (a) {
+            return a.data.map(function (analysisJson) {
+                return new Job(analysisJson);
+            });
+        });
+    };
     Api.getFiles = function (jobId) {
         var url = Api.apiUrl + "/files?jobId=" + jobId;
         return axios_1.default({
@@ -118,12 +130,14 @@ var Application = /** @class */ (function () {
             method: 'post',
             url: url,
             headers: {},
+            data: paramsJson,
         }).then(function (a) {
-            return Api.getJob(a.job_id);
+            return Api.getJob(a.data.job_id);
         });
     };
     return Application;
 }());
+exports.Application = Application;
 var CanisObject = /** @class */ (function () {
     function CanisObject(json) {
         this._clientProps = json;

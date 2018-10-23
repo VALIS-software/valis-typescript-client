@@ -8,6 +8,7 @@ declare class Api {
     static getAnalysis(analysisId: string): Promise<Analysis>;
     static getDataset(id: string): Promise<Dataset>;
     static getJob(jobId: string): Promise<Job>;
+    static getJobs(analysisId: string): Promise<Array<Job>>;
     static getFiles(jobId: string): Promise<Array<string>>;
 }
 declare class Application {
@@ -79,4 +80,4 @@ declare class Dataset extends CanisObject {
     getAnalyses(): Promise<Array<Analysis>>;
     createAnalysis(name: string, type: AnalysisType, code?: string): Promise<Analysis>;
 }
-export { Api, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType };
+export { Api, Application, Dataset, AnalysisType, Analysis, AnalysisParameter, AnalysisParameterType, AnalysisParameterValue, Job, RunStatusType };
