@@ -208,9 +208,23 @@ var Job = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(Job.prototype, "auther", {
+    Object.defineProperty(Job.prototype, "author", {
         get: function () {
             return this._savedProps.author;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Job.prototype, "status", {
+        get: function () {
+            return this._savedProps.status;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(Job.prototype, "result", {
+        get: function () {
+            return this._savedProps.result;
         },
         enumerable: true,
         configurable: true

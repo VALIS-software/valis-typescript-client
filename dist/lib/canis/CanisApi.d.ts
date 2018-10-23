@@ -31,7 +31,9 @@ declare class Job extends CanisObject {
     readonly id: string;
     readonly jobId: string;
     readonly jobType: string;
-    readonly auther: string;
+    readonly author: string;
+    readonly status: string;
+    readonly result: string;
     getOutputFiles(): Promise<string[]>;
     getDefinition(): Promise<string>;
 }

@@ -164,8 +164,16 @@ class Job extends CanisObject {
         return this._savedProps.type;
     }
 
-    get auther() : string {
+    get author() : string {
         return this._savedProps.author;
+    }
+
+    get status() : string {
+        return this._savedProps.status;
+    }
+
+    get result() : string {
+        return this._savedProps.result;
     }
 
     getOutputFiles(): Promise<string[]> {
