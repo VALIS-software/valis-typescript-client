@@ -64,6 +64,23 @@ var Api = /** @class */ (function () {
             return constructFn(a.data);
         });
     };
+    Api.getApps = function () {
+        return new Promise(function (resolve) {
+            resolve([
+                new Application('giggle'),
+            ]);
+        });
+    };
+    Api.getApp = function (appName) {
+        if (appName === 'giggle') {
+            return new Promise(function (resolve) {
+                resolve(new Application('giggle'));
+            });
+        }
+        else {
+            throw 'Application not found';
+        }
+    };
     Api.getDatasets = function () {
         return Api.getMultiple(Dataset.resource, function (json) { return new Dataset(json); });
     };
@@ -91,6 +108,22 @@ var Api = /** @class */ (function () {
     return Api;
 }());
 exports.Api = Api;
+var Application = /** @class */ (function () {
+    function Application(appName) {
+        this._appName = appName;
+    }
+    Application.prototype.createJob = function (paramsJson) {
+        var url = Api.apiUrl + "/application/" + this._appName;
+        return axios_1.default({
+            method: 'post',
+            url: url,
+            headers: {},
+        }).then(function (a) {
+            return Api.getJob(a.job_id);
+        });
+    };
+    return Application;
+}());
 var CanisObject = /** @class */ (function () {
     function CanisObject(json) {
         this._clientProps = json;

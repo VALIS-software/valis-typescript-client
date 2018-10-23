@@ -2,11 +2,18 @@ declare class Api {
     static apiUrl: string;
     private static getMultiple;
     private static getById;
+    static getApps(): Promise<Array<Application>>;
+    static getApp(appName: string): Promise<Application>;
     static getDatasets(): Promise<Array<Dataset>>;
     static getAnalysis(analysisId: string): Promise<Analysis>;
     static getDataset(id: string): Promise<Dataset>;
     static getJob(jobId: string): Promise<Job>;
     static getFiles(jobId: string): Promise<Array<string>>;
+}
+declare class Application {
+    protected _appName: string;
+    constructor(appName: string);
+    createJob(paramsJson: any): Promise<Job>;
 }
 declare class CanisObject {
     protected _clientProps: any;
@@ -18,7 +25,7 @@ declare class CanisObject {
     save(): Promise<CanisObject>;
 }
 declare class Job extends CanisObject {
-    static readonly resource = "jobs";
+    static readonly resource: string;
     constructor(json: any);
     readonly id: string;
     readonly jobId: string;
@@ -43,7 +50,7 @@ declare type AnalysisParameter = {
     options?: string[][];
 };
 declare class Analysis extends CanisObject {
-    static readonly resource = "analyses";
+    static readonly resource: string;
     constructor(json: any);
     readonly analysisId: string;
     readonly datasetId: string;
@@ -65,7 +72,7 @@ declare enum AnalysisType {
     PARSER = 3
 }
 declare class Dataset extends CanisObject {
-    static readonly resource = "datasets";
+    static readonly resource: string;
     constructor(json: any);
     readonly datasetId: string;
     readonly sampleCount: string;

@@ -27,6 +27,24 @@ class Api {
         });
     }
 
+    static getApps() : Promise<Array<Application>> {
+        return new Promise(resolve => {
+            resolve([
+                new Application('giggle'),
+            ])
+        });
+    }
+
+    static getApp(appName: string) : Promise<Application> {
+        if (appName === 'giggle') {
+            return new Promise(resolve => {
+                resolve(new Application('giggle'))
+            });
+        } else {
+            throw 'Application not found';
+        }
+    }
+
     static getDatasets() : Promise<Array<Dataset>> {
         return Api.getMultiple(Dataset.resource, (json: any) => new Dataset(json)) as Promise<Array<Dataset>>;
     }
@@ -56,6 +74,23 @@ class Api {
     }
 }
 
+class Application {
+    protected _appName: string;
+    constructor(appName: string) {
+        this._appName = appName;
+    }
+
+    createJob(paramsJson: any) : Promise<Job> {
+        let url = `${Api.apiUrl}/application/${this._appName}`;
+        return axios({
+            method: 'post',
+            url: url,
+            headers: {},
+        }).then((a: any) => {
+            return Api.getJob(a.job_id);
+        });
+    }
+}
 
 class CanisObject {
     protected _clientProps: any;
