@@ -1,5 +1,6 @@
 import LZString = require("lz-string");
 import ValisBrowserConfig, { SidebarViewType } from "./ValisBrowserConfig";
+import TrackModel from "genome-browser/@types/track/TrackModel";
 
 // A minified version of ValisBrowserConfig
 type MinifiedAppState = {
@@ -8,7 +9,7 @@ type MinifiedAppState = {
 		/** Panel data: [[panel.contig, panel.x0, panel.x1, width], ...] */
 		p: Array<Array<any>>,
 		/** Track row data: [[row.trackRow.model, row.heightPx], ...] */
-		t: Array<Array<any>>
+		t: Array<TrackModel>
 	},
 	/** Sidebar view state */
 	s: {
@@ -89,10 +90,7 @@ export class AppStatePersistence {
 
 		let minifiedTracks: MinifiedAppState['t']['t'] = new Array();
 		for (let track of state.tracks) {
-			minifiedTracks.push([
-				track.model,
-				track.heightPx
-			]);
+			minifiedTracks.push(track);
 		}
 
 		return {
@@ -121,10 +119,7 @@ export class AppStatePersistence {
 		let tracks: ValisBrowserConfig['genomeBrowser']['tracks'] = new Array();
 
 		for (let minTrack of minTracks) {
-			tracks.push({
-				model: minTrack[0],
-				heightPx: minTrack[1],
-			});
+			tracks.push(minTrack);
 		}
 
 		return {

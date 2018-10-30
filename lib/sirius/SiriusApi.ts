@@ -2,7 +2,7 @@
  * Temporary API for development
  */
 import axios, { AxiosRequestConfig, CancelToken } from 'axios';
-import { TileContent } from "genome-browser/@types/model/AnnotationTileset";
+import { GenomeFeature } from "genome-browser/@types/track/annotation/AnnotationTypes";
 
 class SiriusApi {
 
@@ -20,7 +20,7 @@ class SiriusApi {
         startBaseIndex: number,
         span: number,
         macro: boolean,
-    ): Promise<TileContent> {
+    ): Promise<Array<GenomeFeature>> {
         let jsonPath = `https://valis-tmp-data.firebaseapp.com/data/annotation/${contig}${macro ? '-macro' : ''}/${startBaseIndex},${span}.json`;
         return axios.get(jsonPath).then((a) => {
             return a.data;
