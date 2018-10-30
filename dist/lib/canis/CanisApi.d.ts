@@ -26,7 +26,7 @@ declare class CanisObject {
     save(): Promise<CanisObject>;
 }
 declare class Job extends CanisObject {
-    static readonly resource: string;
+    static readonly resource = "jobs";
     constructor(json: any);
     readonly id: string;
     readonly jobId: string;
@@ -53,7 +53,7 @@ declare type AnalysisParameter = {
     options?: string[][];
 };
 declare class Analysis extends CanisObject {
-    static readonly resource: string;
+    static readonly resource = "analyses";
     constructor(json: any);
     readonly analysisId: string;
     readonly datasetId: string;
@@ -75,7 +75,7 @@ declare enum AnalysisType {
     PARSER = 3
 }
 declare class Dataset extends CanisObject {
-    static readonly resource: string;
+    static readonly resource = "datasets";
     constructor(json: any);
     readonly datasetId: string;
     readonly sampleCount: string;

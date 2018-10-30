@@ -1,9 +1,9 @@
-import { TileContent } from "genome-browser/@types/model/AnnotationTileset";
+import { GenomeFeature } from "genome-browser/@types/track/annotation/AnnotationTypes";
 declare class SiriusApi {
     static apiUrl: string;
     private static minMaxCache;
     private static suggestionsCache;
-    static loadAnnotations(contig: string, startBaseIndex: number, span: number, macro: boolean): Promise<TileContent>;
+    static loadAnnotations(contig: string, startBaseIndex: number, span: number, macro: boolean): Promise<Array<GenomeFeature>>;
     static loadACGTSequence(contig: string, startBaseIndex: number, span: number, lodLevel: number): Promise<{
         array: Uint8Array;
         sequenceMinMax: {

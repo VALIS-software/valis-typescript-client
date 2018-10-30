@@ -77,10 +77,7 @@ var AppStatePersistence = /** @class */ (function () {
         try {
             for (var _e = __values(state.tracks), _f = _e.next(); !_f.done; _f = _e.next()) {
                 var track = _f.value;
-                minifiedTracks.push([
-                    track.model,
-                    track.heightPx
-                ]);
+                minifiedTracks.push(track);
             }
         }
         catch (e_2_1) { e_2 = { error: e_2_1 }; }
@@ -124,10 +121,7 @@ var AppStatePersistence = /** @class */ (function () {
         try {
             for (var minTracks_1 = __values(minTracks), minTracks_1_1 = minTracks_1.next(); !minTracks_1_1.done; minTracks_1_1 = minTracks_1.next()) {
                 var minTrack = minTracks_1_1.value;
-                tracks.push({
-                    model: minTrack[0],
-                    heightPx: minTrack[1],
-                });
+                tracks.push(minTrack);
             }
         }
         catch (e_4_1) { e_4 = { error: e_4_1 }; }
