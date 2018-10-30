@@ -194,6 +194,14 @@ var SiriusApi = /** @class */ (function () {
             return data.data;
         });
     };
+    SiriusApi.downloadQuery = function (query, sort) {
+        if (sort === void 0) { sort = false; }
+        var requestUrl = this.apiUrl + "/download_query";
+        return axios_1.default.post(requestUrl, {
+            query: query,
+            sort: sort,
+        });
+    };
     // this special API is created for the "all-variants" track
     SiriusApi.getAllVariantTrackData = function (contig, startBp, endBp) {
         return axios_1.default.get(this.apiUrl + "/all_variant_track_data/" + contig + "/" + startBp + "/" + endBp).then(function (data) {

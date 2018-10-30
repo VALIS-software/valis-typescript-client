@@ -232,6 +232,14 @@ class SiriusApi {
         });
     }
 
+    static downloadQuery(query: any, sort=false) {
+        let requestUrl = `${this.apiUrl}/download_query`
+        return axios.post(requestUrl, {
+            query: query,
+            sort: sort,
+        });
+    }
+
     // this special API is created for the "all-variants" track
     static getAllVariantTrackData(contig: string, startBp: number, endBp: number) {
         return axios.get(`${this.apiUrl}/all_variant_track_data/${contig}/${startBp}/${endBp}`).then(data => {
