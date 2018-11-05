@@ -1,4 +1,4 @@
-import { GenomeFeature } from "genome-browser/@types/track/annotation/AnnotationTypes";
+import { GenomeFeature } from "genome-visualizer/@types/track/annotation/AnnotationTypes";
 declare class SiriusApi {
     static apiUrl: string;
     private static minMaxCache;
