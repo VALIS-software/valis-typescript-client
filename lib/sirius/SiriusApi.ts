@@ -2,7 +2,7 @@
  * Temporary API for development
  */
 import axios, { AxiosRequestConfig, CancelToken } from 'axios';
-import { GenomeFeature } from "genome-browser/@types/track/annotation/AnnotationTypes";
+import { GenomeFeature } from "genome-visualizer/@types/track/annotation/AnnotationTypes";
 
 class SiriusApi {
 

@@ -1,6 +1,6 @@
 import LZString = require("lz-string");
 import ValisBrowserConfig, { SidebarViewType } from "./ValisBrowserConfig";
-import TrackModel from "genome-browser/@types/track/TrackModel";
+import TrackModel from "genome-visualizer/@types/track/TrackModel";
 
 // A minified version of ValisBrowserConfig
 type MinifiedAppState = {

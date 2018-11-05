@@ -1,4 +1,4 @@
-import { GenomeBrowserConfiguration } from "genome-browser/@types/GenomeBrowserConfiguration";
+import { GenomeBrowserConfiguration } from "genome-visualizer/@types/GenomeBrowserConfiguration";
 
 export type ValisBrowserConfig = {
 	genomeBrowser: GenomeBrowserConfiguration,

@@ -28,7 +28,7 @@
     "@types/lz-string": "^1.3.32",
     "axios": "^0.18.0",
     "enzyme": "^3.6.0",
-    "genome-browser": "github:VALIS-software/Genome-Browser",
+    "genome-visualizer": "github:VALIS-software/High-Performance-Genome-Visualizer",
     "immutable": "^3.8.2",
     "jest": "^23.6.0",
     "lz-string": "1.4.x",
