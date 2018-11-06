@@ -31,7 +31,7 @@ declare class SiriusApi {
     static downloadQuery(query: any, sort?: boolean): import("axios").AxiosPromise<any>;
     static getAllVariantTrackData(contig: string, startBp: number, endBp: number): Promise<any>;
     static getVariantTrackData(contig: string, startBp: number, endBp: number, query: any): Promise<any>;
-    static getIntervalTrackData(contig: string, startBp: number, endBp: number, query: any): Promise<any>;
+    static getIntervalTrackData(contig: string, startBp: number, endBp: number, query: any, fields?: Array<string>): Promise<any>;
     static getSuggestions(termType: string, searchText: string, maxResults?: number): Promise<any>;
     static getUserProfile(): Promise<any>;
     private static parseSiriusBinaryResponse;

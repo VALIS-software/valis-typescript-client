@@ -213,8 +213,9 @@ var SiriusApi = /** @class */ (function () {
             return data.data;
         });
     };
-    SiriusApi.getIntervalTrackData = function (contig, startBp, endBp, query) {
-        return axios_1.default.post(this.apiUrl + "/interval_track_data/" + contig + "/" + startBp + "/" + endBp, query).then(function (data) {
+    SiriusApi.getIntervalTrackData = function (contig, startBp, endBp, query, fields) {
+        var fieldsQuery = fields != null ? ('fields=' + fields.join(',')) : '';
+        return axios_1.default.post(this.apiUrl + "/interval_track_data/" + contig + "/" + startBp + "/" + endBp + "?" + fieldsQuery, query).then(function (data) {
             return data.data;
         });
     };

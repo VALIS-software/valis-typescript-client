@@ -253,8 +253,9 @@ class SiriusApi {
         });
     }
 
-    static getIntervalTrackData(contig: string, startBp: number, endBp: number, query: any) {
-        return axios.post(`${this.apiUrl}/interval_track_data/${contig}/${startBp}/${endBp}`, query).then(data => {
+    static getIntervalTrackData(contig: string, startBp: number, endBp: number, query: any, fields?: Array<string>) {
+        let fieldsQuery = fields != null ? ('fields=' + fields.join(',')) : '';
+        return axios.post(`${this.apiUrl}/interval_track_data/${contig}/${startBp}/${endBp}?${fieldsQuery}`, query).then(data => {
             return data.data;
         });
     }
