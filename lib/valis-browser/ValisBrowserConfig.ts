@@ -1,7 +1,7 @@
-import { GenomeBrowserConfiguration } from "genome-visualizer/@types/GenomeBrowserConfiguration";
+import { GenomeVisualizerConfiguration } from "genome-visualizer/@types/GenomeVisualizerConfiguration";
 
 export type ValisBrowserConfig = {
-	genomeBrowser: GenomeBrowserConfiguration,
+	genomeVisualizer: GenomeVisualizerConfiguration,
 	sidebar: {
 		viewType: SidebarViewType,
 		title?: string,

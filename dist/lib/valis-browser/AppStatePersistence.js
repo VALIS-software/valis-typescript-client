@@ -28,7 +28,7 @@ var AppStatePersistence = /** @class */ (function () {
     AppStatePersistence.serializeConfig = function (state) {
         var headerVisible = (state.headerVisible != null) ? state.headerVisible : true;
         var minifiedState = {
-            t: this.minifyGenomeBrowserState(state.genomeBrowser),
+            t: this.minifyGenomeBrowserState(state.genomeVisualizer),
             s: this.minifySidebarState(state.sidebar),
             hv: headerVisible ? 1 : 0,
         };
@@ -46,7 +46,7 @@ var AppStatePersistence = /** @class */ (function () {
         }
         var minifiedState = JSON.parse(jsonString);
         var expandedState = {
-            genomeBrowser: this.expandGenomeBrowserState(minifiedState.t),
+            genomeVisualizer: this.expandGenomeBrowserState(minifiedState.t),
             sidebar: this.expandSidebarState(minifiedState.s),
             headerVisible: (minifiedState.hv != null) ? (!!minifiedState.hv) : true,
         };
@@ -88,6 +88,7 @@ var AppStatePersistence = /** @class */ (function () {
             finally { if (e_2) throw e_2.error; }
         }
         return {
+            a: state.allowNewPanels ? 1 : 0,
             p: minifiedPanels,
             t: minifiedTracks
         };
@@ -132,6 +133,7 @@ var AppStatePersistence = /** @class */ (function () {
             finally { if (e_4) throw e_4.error; }
         }
         return {
+            allowNewPanels: min.a === 1 ? true : false,
             panels: panels,
             tracks: tracks,
         };

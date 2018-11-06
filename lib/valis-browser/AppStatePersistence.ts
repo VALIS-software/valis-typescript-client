@@ -6,6 +6,7 @@ import TrackModel from "genome-visualizer/@types/track/TrackModel";
 type MinifiedAppState = {
 	/** TrackViewer state */
 	t: {
+		a: number, // allow new panels
 		/** Panel data: [[panel.contig, panel.x0, panel.x1, width], ...] */
 		p: Array<Array<any>>,
 		/** Track row data: [[row.trackRow.model, row.heightPx], ...] */
@@ -46,7 +47,7 @@ export class AppStatePersistence {
 		let headerVisible = (state.headerVisible != null) ? state.headerVisible : true;
 
 		let minifiedState: MinifiedAppState = {
-			t: this.minifyGenomeBrowserState(state.genomeBrowser),
+			t: this.minifyGenomeBrowserState(state.genomeVisualizer),
 			s: this.minifySidebarState(state.sidebar),
 			hv: headerVisible ? 1 : 0,
 		};
@@ -69,7 +70,7 @@ export class AppStatePersistence {
 		let minifiedState: MinifiedAppState = JSON.parse(jsonString);
 
 		let expandedState: ValisBrowserConfig = {
-			genomeBrowser: this.expandGenomeBrowserState(minifiedState.t),
+			genomeVisualizer: this.expandGenomeBrowserState(minifiedState.t),
 			sidebar: this.expandSidebarState(minifiedState.s),
 			headerVisible: (minifiedState.hv != null) ? (!!minifiedState.hv) : true,
 		};
@@ -77,7 +78,7 @@ export class AppStatePersistence {
 		return expandedState;
 	}
 
-	private static minifyGenomeBrowserState(state: ValisBrowserConfig['genomeBrowser']): MinifiedAppState['t'] {
+	private static minifyGenomeBrowserState(state: ValisBrowserConfig['genomeVisualizer']): MinifiedAppState['t'] {
 		let minifiedPanels: MinifiedAppState['t']['p'] = new Array();
 		for (let panel of state.panels) {
 			minifiedPanels.push([
@@ -94,16 +95,17 @@ export class AppStatePersistence {
 		}
 
 		return {
+			a: state.allowNewPanels ? 1 : 0,
 			p: minifiedPanels,
 			t: minifiedTracks
 		};
 	}
 
-	private static expandGenomeBrowserState(min: MinifiedAppState['t']): ValisBrowserConfig['genomeBrowser'] {
+	private static expandGenomeBrowserState(min: MinifiedAppState['t']): ValisBrowserConfig['genomeVisualizer'] {
 		let minPanels = min.p;
 		let minTracks = min.t;
 
-		let panels: ValisBrowserConfig['genomeBrowser']['panels'] = new Array();
+		let panels: ValisBrowserConfig['genomeVisualizer']['panels'] = new Array();
 
 		for (let minPanel of minPanels) {
 			panels.push({
@@ -116,13 +118,14 @@ export class AppStatePersistence {
 			});
 		}
 
-		let tracks: ValisBrowserConfig['genomeBrowser']['tracks'] = new Array();
+		let tracks: ValisBrowserConfig['genomeVisualizer']['tracks'] = new Array();
 
 		for (let minTrack of minTracks) {
 			tracks.push(minTrack);
 		}
 
 		return {
+			allowNewPanels: min.a === 1 ? true : false,
 			panels: panels,
 			tracks: tracks,
 		};
