@@ -2,6 +2,7 @@ declare class Api {
     static apiUrl: string;
     private static getMultiple;
     private static getById;
+    private static availAppNames;
     static getApps(): Promise<Array<Application>>;
     static getApp(appName: string): Promise<Application>;
     static getDatasets(): Promise<Array<Dataset>>;

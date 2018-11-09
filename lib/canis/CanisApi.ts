@@ -27,18 +27,22 @@ class Api {
         });
     }
 
+    private static availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier'];
+
     static getApps() : Promise<Array<Application>> {
         return new Promise(resolve => {
-            resolve([
-                new Application('giggle'),
-            ])
+            resolve(
+                Api.availAppNames.map(
+                    appName => {return (new Application(appName));}
+                )
+            )
         });
     }
 
     static getApp(appName: string) : Promise<Application> {
-        if (appName === 'giggle') {
+        if (Api.availAppNames.indexOf(appName) >= 0) {
             return new Promise(resolve => {
-                resolve(new Application('giggle'))
+                resolve(new Application(appName))
             });
         } else {
             throw 'Application not found';
@@ -118,7 +122,7 @@ class CanisObject {
     set name(_name: string) {
         this._clientProps.name = _name;
     }
-    
+
     get name() : string {
         return this._clientProps.name;
     }
@@ -247,7 +251,7 @@ class Analysis extends CanisObject {
 
     createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job> {
         let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}`;
-        
+
         let paramsObj: any = {};
         for (let [k,v] of parameters) {
             paramsObj[k] = v;
