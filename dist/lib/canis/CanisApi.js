@@ -66,15 +66,13 @@ var Api = /** @class */ (function () {
     };
     Api.getApps = function () {
         return new Promise(function (resolve) {
-            resolve([
-                new Application('giggle'),
-            ]);
+            resolve(Api.availAppNames.map(function (appName) { return (new Application(appName)); }));
         });
     };
     Api.getApp = function (appName) {
-        if (appName === 'giggle') {
+        if (Api.availAppNames.indexOf(appName) >= 0) {
             return new Promise(function (resolve) {
-                resolve(new Application('giggle'));
+                resolve(new Application(appName));
             });
         }
         else {
@@ -117,6 +115,7 @@ var Api = /** @class */ (function () {
         });
     };
     Api.apiUrl = '';
+    Api.availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier'];
     return Api;
 }());
 exports.Api = Api;
