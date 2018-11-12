@@ -112,11 +112,9 @@ function buildGeneQuery(parsePath) {
 }
 function buildCellQuery(parsePath) {
     var annotationType = (parsePath[0].rule == 'PROMOTER') ? "Promoter-like" : "Enhancer-like";
-    var targets = [STRIP_QUOTES(parsePath[2].value)];
-    var cellType = STRIP_QUOTES(parsePath[4].value);
+    var cellType = STRIP_QUOTES(parsePath[2].value);
     builder.newGenomeQuery();
     builder.filterType(annotationType);
-    builder.filterTargets(targets);
     builder.filterBiosample(cellType);
     builder.setLimit(2000000);
     return builder.build();
