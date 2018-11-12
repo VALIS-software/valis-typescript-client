@@ -112,11 +112,9 @@ function buildGeneQuery(parsePath) {
 }
 function buildCellQuery(parsePath) {
     var annotationType = (parsePath[0].rule == 'PROMOTER') ? "Promoter-like" : "Enhancer-like";
-    var targets = [STRIP_QUOTES(parsePath[2].value)];
-    var cellType = STRIP_QUOTES(parsePath[4].value);
+    var cellType = STRIP_QUOTES(parsePath[2].value);
     builder.newGenomeQuery();
     builder.filterType(annotationType);
-    builder.filterTargets(targets);
     builder.filterBiosample(cellType);
     builder.setLimit(2000000);
     return builder.build();
@@ -396,7 +394,8 @@ function buildQueryParser(suggestions) {
     terminals.set('PROMOTER', /promoters/g);
     terminals.set('ENHANCER', /enhancers/g);
     terminals.set('TARGET', /"(.+?)"/g);
-    terminals.set('CELL_TYPE', /"(.+?)"/g);
+    terminals.set('CELL_TYPE_PROMOTER', /"(.+?)"/g);
+    terminals.set('CELL_TYPE_ENHANCER', /"(.+?)"/g);
     terminals.set('EQTL', /eqtl/g);
     terminals.set('NAMED', /named/g);
     terminals.set('TUMOR_SITE', /"(.+?)"/g);
@@ -412,8 +411,9 @@ function buildQueryParser(suggestions) {
     expansions.set('INFLUENCING_GENE', [ALL, 'INFLUENCING', 'GENE']);
     expansions.set('NAMED_GENE', [ALL, 'NAMED', 'GENE']);
     expansions.set('NAMED_SNP_RS', [ALL, 'NAMED', 'RS_T']);
-    expansions.set('ANNOTATION_TYPE', [ANY, 'PROMOTER', 'ENHANCER']);
-    expansions.set('CELL_ANNOTATION', [ALL, 'ANNOTATION_TYPE', 'OF', 'TARGET', 'IN', 'CELL_TYPE']);
+    expansions.set('CELL_ANNOTATION', [ANY, 'CELL_ANNOTATION_PROMOTER', 'CELL_ANNOTATION_ENHANCER']);
+    expansions.set('CELL_ANNOTATION_PROMOTER', [ALL, 'PROMOTER', 'IN', 'CELL_TYPE_PROMOTER']);
+    expansions.set('CELL_ANNOTATION_ENHANCER', [ALL, 'ENHANCER', 'IN', 'CELL_TYPE_ENHANCER']);
     // The root query rules
     expansions.set('VARIANT_QUERY', [ALL, 'VARIANTS', 'VARIANT_QUERY_TYPE', EOF]);
     expansions.set('GENE_QUERY', [ALL, 'GENE_T', 'GENE_QUERY_TYPE', EOF]);
