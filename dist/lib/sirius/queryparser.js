@@ -28,8 +28,16 @@ var TRIM = function (x) {
     return x.replace(/(^[ '\^\$\*#&]+)|([ '\^\$\*#&]+$)/g, '');
 };
 var REGEX_TO_STRING = function (x) {
+    if (!x)
+        return null;
     var str = x.toString();
-    return str.slice(1, str.length - 2);
+    // remove ^ or $
+    str = str.slice(1, str.length - 2);
+    if (str[0] === '^')
+        str = str.slice(1);
+    if (str[str.length - 1] === '$')
+        str = str.slice(0, str.length - 1);
+    return str;
 };
 var REGEX_HAS_QUOTES = function (x) {
     var a = REGEX_TO_STRING(x);
@@ -342,9 +350,9 @@ var QueryParser = /** @class */ (function () {
             }
             else {
                 finalSuggestions.push(new Promise(function (resolve, reject) {
-                    resolve([
+                    resolve(_this.terminals.get(rule) ? [
                         { rule: rule, value: REGEX_TO_STRING(_this.terminals.get(rule)) }
-                    ]);
+                    ] : []);
                 }));
             }
         });

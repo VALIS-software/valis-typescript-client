@@ -53,8 +53,13 @@ const TRIM = (x: string): string => {
 }
 
 const REGEX_TO_STRING = (x: RegExp): string => {
-    const str = x.toString();
-    return str.slice(1, str.length - 2);
+    if (!x) return null;
+    let str = x.toString();
+    // remove ^ or $
+    str = str.slice(1, str.length - 2);
+    if (str[0] === '^') str = str.slice(1);
+    if (str[str.length - 1] === '$') str = str.slice(0, str.length - 1);
+    return str;
 }
 
 const REGEX_HAS_QUOTES = (x: RegExp): boolean => {
@@ -359,9 +364,9 @@ export class QueryParser {
                 finalSuggestions.push(this.suggestions.get(rule)(tokenText, maxSuggestions / 2));
             } else {
                 finalSuggestions.push(new Promise((resolve, reject) => {
-                    resolve([
+                    resolve(this.terminals.get(rule) ? [
                         { rule: rule as TokenType, value: REGEX_TO_STRING(this.terminals.get(rule)) }
-                    ]);
+                    ] : []);
                 }));
             }
         });
