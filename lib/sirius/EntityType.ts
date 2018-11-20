@@ -7,6 +7,7 @@ enum EntityType {
     TRAIT = 'trait',
     GWAS = 'association:SNP:trait',
     EQTL = 'association:SNP:gene',
+    INTERVAL = 'interval',
 };
 
 export { EntityType };
