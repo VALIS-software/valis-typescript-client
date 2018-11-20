@@ -6,6 +6,7 @@ declare enum EntityType {
     NCRNAGENE = "ncRNA_gene",
     TRAIT = "trait",
     GWAS = "association:SNP:trait",
-    EQTL = "association:SNP:gene"
+    EQTL = "association:SNP:gene",
+    INTERVAL = "interval"
 }
 export { EntityType };
