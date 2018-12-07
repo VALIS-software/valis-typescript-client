@@ -304,7 +304,7 @@ var SiriusApi = /** @class */ (function () {
             params: {
                 fileID: fileID
             },
-            headers: Headers,
+            headers: headers,
         };
         return axios_1.default.delete(this.apiUrl + "/user_files", requestConfig);
     };

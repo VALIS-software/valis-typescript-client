@@ -344,7 +344,7 @@ class SiriusApi {
             params: {
                 fileID: fileID
             },
-            headers: Headers,
+            headers: headers,
         };
         return axios.delete(`${this.apiUrl}/user_files`, requestConfig);
     }
