@@ -8,6 +8,8 @@ class SiriusApi {
 
     public static apiUrl: string = '';
 
+    public static getAccessToken(): string {return ''};
+
     private static minMaxCache: {
         [path: string]: Promise<{ min: number, max: number }>
     } = {};
@@ -45,14 +47,14 @@ class SiriusApi {
         let spanBasePair = span;
         let endBasePair = startBasePair + spanBasePair - 1;
         let url = `${this.apiUrl}/datatracks/sequence/${contig}/${startBasePair}/${endBasePair}?sampling_rate=${samplingDensity}`;
-
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         let lodSpan = span / samplingDensity;
 
         return axios({
             method: 'get',
             url: url,
             responseType: 'arraybuffer',
-            headers: {},
+            headers: headers,
         }).then((a) => {
             let payloadArray = new Float32Array(this.parseSiriusBinaryResponse(a.data));
             let baseCount = payloadArray.length / 4;
@@ -113,12 +115,12 @@ class SiriusApi {
         let spanBasePair = lodSpan * samplingDensity;
         let endBasePair = startBasePair + spanBasePair - 1;
         let url = `${this.apiUrl}/datatracks/ENCFF918ESR/chr1/${startBasePair}/${endBasePair}?sampling_rate=${samplingDensity}`;
-
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         return axios({
             method: 'get',
             url: url,
             responseType: 'arraybuffer',
-            headers: {},
+            headers: headers,
         }).then((a) => {
             let arraybuffer = this.parseSiriusBinaryResponse(a.data);
             let payloadArray = new Float32Array(arraybuffer);
@@ -134,9 +136,10 @@ class SiriusApi {
         }
     }>;
     static getContigs() {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         if (this._contigInfoPromise == null) {
             // initialize the promise
-            this._contigInfoPromise = axios.get(`${SiriusApi.apiUrl}/contig_info`).then(data => {
+            this._contigInfoPromise = axios.get(`${SiriusApi.apiUrl}/contig_info`, { headers }).then(data => {
                 let infoArray: Array<{
                     name: string,
                     start: number,
@@ -163,13 +166,15 @@ class SiriusApi {
     }
 
     static getCanisApiUrl() {
-        return axios.get(`${this.apiUrl}/canis_api`).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(`${this.apiUrl}/canis_api`, { headers }).then(data => {
             return data.data;
         });
     }
 
     static getGraphs() {
-        return axios.get(`${this.apiUrl}/graphs`).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(`${this.apiUrl}/graphs`, { headers }).then(data => {
             return data.data;
         });
     }
@@ -177,24 +182,28 @@ class SiriusApi {
     static getGraphData(graphId: string, annotationId1: string, annotationId2: string, startBp: number, endBp: number, samplingRate = 1) {
         const samplingRateQuery = `?sampling_rate=${samplingRate}`;
         const requestUrl = `${this.apiUrl}/graphs/${graphId}/${annotationId1}/${annotationId2}/${startBp}/${endBp}${samplingRateQuery}`;
-        return axios.get(requestUrl);
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(requestUrl, { headers });
     }
 
     static getTracks() {
-        return axios.get(`${this.apiUrl}/tracks`).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(`${this.apiUrl}/tracks`, { headers }).then(data => {
             return data.data;
         });
     }
 
     static getTrackInfo() {
-        return axios.get(`${this.apiUrl}/track_info`).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(`${this.apiUrl}/track_info`, { headers }).then(data => {
             return data.data;
         });
     }
 
     static getDistinctValues(key: string, query: any) {
         const requestUrl = `${this.apiUrl}/distinct_values/${key}`;
-        return axios.post(requestUrl, query).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.post(requestUrl, query, { headers }).then(data => {
             return data.data;
         });
     }
@@ -204,7 +213,8 @@ class SiriusApi {
         if (userFileID) {
             requestUrl = requestUrl + "?userFileID=" + userFileID;
         }
-        return axios.get(requestUrl).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(requestUrl, { headers }).then(data => {
             return data.data;
         });
     }
@@ -227,35 +237,41 @@ class SiriusApi {
         if (options.length > 0) {
             requestUrl = `${requestUrl}?` + options.join('&');
         }
-        return axios.post(requestUrl, query).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.post(requestUrl, query, { headers }).then(data => {
             return data.data;
         });
     }
 
     static downloadQuery(query: any, sort=false) {
-        let requestUrl = `${this.apiUrl}/download_query`
+        let requestUrl = `${this.apiUrl}/download_query`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         return axios.post(requestUrl, {
             query: query,
             sort: sort,
+            headers: headers,
         });
     }
 
     // this special API is created for the "all-variants" track
     static getAllVariantTrackData(contig: string, startBp: number, endBp: number) {
-        return axios.get(`${this.apiUrl}/all_variant_track_data/${contig}/${startBp}/${endBp}`).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(`${this.apiUrl}/all_variant_track_data/${contig}/${startBp}/${endBp}`, { headers }).then(data => {
             return data.data;
         });
     }
 
     static getVariantTrackData(contig: string, startBp: number, endBp: number, query: any) {
-        return axios.post(`${this.apiUrl}/variant_track_data/${contig}/${startBp}/${endBp}`, query).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.post(`${this.apiUrl}/variant_track_data/${contig}/${startBp}/${endBp}`, query, { headers }).then(data => {
             return data.data;
         });
     }
 
     static getIntervalTrackData(contig: string, startBp: number, endBp: number, query: any, fields?: Array<string>) {
         let fieldsQuery = fields != null ? ('fields=' + fields.join(',')) : '';
-        return axios.post(`${this.apiUrl}/interval_track_data/${contig}/${startBp}/${endBp}?${fieldsQuery}`, query).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.post(`${this.apiUrl}/interval_track_data/${contig}/${startBp}/${endBp}?${fieldsQuery}`, query, { headers }).then(data => {
             return data.data;
         });
     }
@@ -269,22 +285,18 @@ class SiriusApi {
                 resolve(this.suggestionsCache[cacheKey]);
             })
         } else {
+            const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
             ret = axios.post(`${this.apiUrl}/suggestions`, {
                 term_type: termType,
                 search_text: searchText,
                 max_results: maxResults,
+                headers: Headers,
             }).then(data => {
                 this.suggestionsCache[cacheKey] = data.data.results.slice(0);
                 return data.data.results;
             });
         }
         return ret;
-    }
-
-    static getUserProfile() {
-        return axios.get(`${this.apiUrl}/user_profile`).then(data => {
-            return data.data;
-        });
     }
 
     private static parseSiriusBinaryResponse(arraybuffer: ArrayBuffer) {
@@ -311,23 +323,28 @@ class SiriusApi {
         const data = new FormData();
         data.append("file", file);
         data.append("fileType", fileType);
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         const config = {
             onUploadProgress: onUploadProgress,
+            headers: headers,
         }
         return axios.post(`${this.apiUrl}/user_files`, data, config);
     }
 
     static getUserFiles() {
-        return axios.get(`${this.apiUrl}/user_files`).then(data => {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios.get(`${this.apiUrl}/user_files`, { headers }).then(data => {
             return data.data;
         });
     }
 
     static deleteUserFile(fileID: string) {
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         const requestConfig = {
             params: {
                 fileID: fileID
             },
+            headers: Headers,
         };
         return axios.delete(`${this.apiUrl}/user_files`, requestConfig);
     }
