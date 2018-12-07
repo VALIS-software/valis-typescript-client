@@ -214,8 +214,7 @@ var SiriusApi = /** @class */ (function () {
         return axios_1.default.post(requestUrl, {
             query: query,
             sort: sort,
-            headers: headers,
-        });
+        }, { headers: headers });
     };
     // this special API is created for the "all-variants" track
     SiriusApi.getAllVariantTrackData = function (contig, startBp, endBp) {
@@ -254,8 +253,7 @@ var SiriusApi = /** @class */ (function () {
                 term_type: termType,
                 search_text: searchText,
                 max_results: maxResults,
-                headers: headers,
-            }).then(function (data) {
+            }, { headers: headers }).then(function (data) {
                 _this.suggestionsCache[cacheKey] = data.data.results.slice(0);
                 return data.data.results;
             });

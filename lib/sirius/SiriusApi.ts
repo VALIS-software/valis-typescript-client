@@ -249,8 +249,7 @@ class SiriusApi {
         return axios.post(requestUrl, {
             query: query,
             sort: sort,
-            headers: headers,
-        });
+        }, { headers });
     }
 
     // this special API is created for the "all-variants" track
@@ -290,8 +289,7 @@ class SiriusApi {
                 term_type: termType,
                 search_text: searchText,
                 max_results: maxResults,
-                headers: headers,
-            }).then(data => {
+            }, { headers }).then(data => {
                 this.suggestionsCache[cacheKey] = data.data.results.slice(0);
                 return data.data.results;
             });
