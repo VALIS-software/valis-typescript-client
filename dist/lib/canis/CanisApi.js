@@ -43,6 +43,8 @@ var axios_1 = require("axios");
 var Api = /** @class */ (function () {
     function Api() {
     }
+    Api.getAccessToken = function () { return ''; };
+    ;
     Api.getMultiple = function (endpoint, constructFn) {
         var url = Api.apiUrl + "/" + endpoint;
         return axios_1.default({
@@ -93,10 +95,11 @@ var Api = /** @class */ (function () {
     };
     Api.getJobs = function (analysisId) {
         var url = Api.apiUrl + "/jobs?analysisId=" + analysisId;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             return a.data.map(function (analysisJson) {
                 return new Job(analysisJson);
@@ -105,10 +108,11 @@ var Api = /** @class */ (function () {
     };
     Api.getFiles = function (jobId) {
         var url = Api.apiUrl + "/files?jobId=" + jobId;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             var resultList = a.data.reverse();
             return resultList;
@@ -125,10 +129,11 @@ var Application = /** @class */ (function () {
     }
     Application.prototype.createJob = function (paramsJson) {
         var url = Api.apiUrl + "/application/" + this._appName;
+        var headers = { 'Authorization': "Bearer " + Api.getAccessToken() };
         return axios_1.default({
             method: 'post',
             url: url,
-            headers: {},
+            headers: headers,
             data: paramsJson,
         }).then(function (a) {
             return Api.getJob(a.data.job_id);
@@ -321,10 +326,11 @@ var Analysis = /** @class */ (function (_super) {
             }
             finally { if (e_1) throw e_1.error; }
         }
+        var headers = { 'Authorization': "Bearer " + Api.getAccessToken() };
         return axios_1.default({
             method: 'post',
             url: url,
-            headers: {},
+            headers: headers,
             data: {
                 name: name || this.name,
                 code: this.code,
@@ -338,10 +344,11 @@ var Analysis = /** @class */ (function (_super) {
     Analysis.prototype.getRuns = function (withStatus) {
         var status = withStatus ? "&withStatus=" + withStatus : '';
         var url = Api.apiUrl + "/jobs?analysisId=" + this.analysisId + status;
+        var headers = { 'Authorization': "Bearer " + Api.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             return a.data.map(function (analysisJson) {
                 return new Job(analysisJson);
@@ -388,10 +395,11 @@ var Dataset = /** @class */ (function (_super) {
     });
     Dataset.prototype.getAnalyses = function () {
         var url = Api.apiUrl + "/analyses?datasetId=" + this.datasetId;
+        var headers = { 'Authorization': "Bearer " + Api.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             return a.data.map(function (analysisJson) {
                 return new Analysis(analysisJson);
@@ -400,10 +408,11 @@ var Dataset = /** @class */ (function (_super) {
     };
     Dataset.prototype.createAnalysis = function (name, type, code) {
         var url = Api.apiUrl + "/analyses";
+        var headers = { 'Authorization': "Bearer " + Api.getAccessToken() };
         return axios_1.default({
             method: 'post',
             url: url,
-            headers: {},
+            headers: headers,
             data: {
                 name: name,
                 code: code,
