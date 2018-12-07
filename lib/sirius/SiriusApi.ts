@@ -290,7 +290,7 @@ class SiriusApi {
                 term_type: termType,
                 search_text: searchText,
                 max_results: maxResults,
-                headers: Headers,
+                headers: headers,
             }).then(data => {
                 this.suggestionsCache[cacheKey] = data.data.results.slice(0);
                 return data.data.results;

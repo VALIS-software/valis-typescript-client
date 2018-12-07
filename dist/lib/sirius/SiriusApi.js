@@ -254,7 +254,7 @@ var SiriusApi = /** @class */ (function () {
                 term_type: termType,
                 search_text: searchText,
                 max_results: maxResults,
-                headers: Headers,
+                headers: headers,
             }).then(function (data) {
                 _this.suggestionsCache[cacheKey] = data.data.results.slice(0);
                 return data.data.results;
