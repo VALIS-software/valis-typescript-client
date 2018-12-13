@@ -17,6 +17,8 @@ var axios_1 = require("axios");
 var SiriusApi = /** @class */ (function () {
     function SiriusApi() {
     }
+    SiriusApi.getAccessToken = function () { return ''; };
+    ;
     SiriusApi.loadAnnotations = function (contig, startBaseIndex, span, macro) {
         var jsonPath = "https://valis-tmp-data.firebaseapp.com/data/annotation/" + contig + (macro ? '-macro' : '') + "/" + startBaseIndex + "," + span + ".json";
         return axios_1.default.get(jsonPath).then(function (a) {
@@ -30,12 +32,13 @@ var SiriusApi = /** @class */ (function () {
         var spanBasePair = span;
         var endBasePair = startBasePair + spanBasePair - 1;
         var url = this.apiUrl + "/datatracks/sequence/" + contig + "/" + startBasePair + "/" + endBasePair + "?sampling_rate=" + samplingDensity;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         var lodSpan = span / samplingDensity;
         return axios_1.default({
             method: 'get',
             url: url,
             responseType: 'arraybuffer',
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             var payloadArray = new Float32Array(_this.parseSiriusBinaryResponse(a.data));
             var baseCount = payloadArray.length / 4;
@@ -87,11 +90,12 @@ var SiriusApi = /** @class */ (function () {
         var spanBasePair = lodSpan * samplingDensity;
         var endBasePair = startBasePair + spanBasePair - 1;
         var url = this.apiUrl + "/datatracks/ENCFF918ESR/chr1/" + startBasePair + "/" + endBasePair + "?sampling_rate=" + samplingDensity;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
             responseType: 'arraybuffer',
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             var arraybuffer = _this.parseSiriusBinaryResponse(a.data);
             var payloadArray = new Float32Array(arraybuffer);
@@ -100,9 +104,10 @@ var SiriusApi = /** @class */ (function () {
         });
     };
     SiriusApi.getContigs = function () {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         if (this._contigInfoPromise == null) {
             // initialize the promise
-            this._contigInfoPromise = axios_1.default.get(SiriusApi.apiUrl + "/contig_info").then(function (data) {
+            this._contigInfoPromise = axios_1.default.get(SiriusApi.apiUrl + "/contig_info", { headers: headers }).then(function (data) {
                 var e_1, _a;
                 var infoArray = data.data;
                 // create contig info map
@@ -129,12 +134,14 @@ var SiriusApi = /** @class */ (function () {
         return this._contigInfoPromise;
     };
     SiriusApi.getCanisApiUrl = function () {
-        return axios_1.default.get(this.apiUrl + "/canis_api").then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(this.apiUrl + "/canis_api", { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.getGraphs = function () {
-        return axios_1.default.get(this.apiUrl + "/graphs").then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(this.apiUrl + "/graphs", { headers: headers }).then(function (data) {
             return data.data;
         });
     };
@@ -142,21 +149,25 @@ var SiriusApi = /** @class */ (function () {
         if (samplingRate === void 0) { samplingRate = 1; }
         var samplingRateQuery = "?sampling_rate=" + samplingRate;
         var requestUrl = this.apiUrl + "/graphs/" + graphId + "/" + annotationId1 + "/" + annotationId2 + "/" + startBp + "/" + endBp + samplingRateQuery;
-        return axios_1.default.get(requestUrl);
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(requestUrl, { headers: headers });
     };
     SiriusApi.getTracks = function () {
-        return axios_1.default.get(this.apiUrl + "/tracks").then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(this.apiUrl + "/tracks", { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.getTrackInfo = function () {
-        return axios_1.default.get(this.apiUrl + "/track_info").then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(this.apiUrl + "/track_info", { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.getDistinctValues = function (key, query) {
         var requestUrl = this.apiUrl + "/distinct_values/" + key;
-        return axios_1.default.post(requestUrl, query).then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.post(requestUrl, query, { headers: headers }).then(function (data) {
             return data.data;
         });
     };
@@ -165,7 +176,8 @@ var SiriusApi = /** @class */ (function () {
         if (userFileID) {
             requestUrl = requestUrl + "?userFileID=" + userFileID;
         }
-        return axios_1.default.get(requestUrl).then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(requestUrl, { headers: headers }).then(function (data) {
             return data.data;
         });
     };
@@ -190,32 +202,37 @@ var SiriusApi = /** @class */ (function () {
         if (options.length > 0) {
             requestUrl = requestUrl + "?" + options.join('&');
         }
-        return axios_1.default.post(requestUrl, query).then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.post(requestUrl, query, { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.downloadQuery = function (query, sort) {
         if (sort === void 0) { sort = false; }
         var requestUrl = this.apiUrl + "/download_query";
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         return axios_1.default.post(requestUrl, {
             query: query,
             sort: sort,
-        });
+        }, { headers: headers });
     };
     // this special API is created for the "all-variants" track
     SiriusApi.getAllVariantTrackData = function (contig, startBp, endBp) {
-        return axios_1.default.get(this.apiUrl + "/all_variant_track_data/" + contig + "/" + startBp + "/" + endBp).then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(this.apiUrl + "/all_variant_track_data/" + contig + "/" + startBp + "/" + endBp, { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.getVariantTrackData = function (contig, startBp, endBp, query) {
-        return axios_1.default.post(this.apiUrl + "/variant_track_data/" + contig + "/" + startBp + "/" + endBp, query).then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.post(this.apiUrl + "/variant_track_data/" + contig + "/" + startBp + "/" + endBp, query, { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.getIntervalTrackData = function (contig, startBp, endBp, query, fields) {
         var fieldsQuery = fields != null ? ('fields=' + fields.join(',')) : '';
-        return axios_1.default.post(this.apiUrl + "/interval_track_data/" + contig + "/" + startBp + "/" + endBp + "?" + fieldsQuery, query).then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.post(this.apiUrl + "/interval_track_data/" + contig + "/" + startBp + "/" + endBp + "?" + fieldsQuery, query, { headers: headers }).then(function (data) {
             return data.data;
         });
     };
@@ -231,21 +248,17 @@ var SiriusApi = /** @class */ (function () {
             });
         }
         else {
+            var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
             ret = axios_1.default.post(this.apiUrl + "/suggestions", {
                 term_type: termType,
                 search_text: searchText,
                 max_results: maxResults,
-            }).then(function (data) {
+            }, { headers: headers }).then(function (data) {
                 _this.suggestionsCache[cacheKey] = data.data.results.slice(0);
                 return data.data.results;
             });
         }
         return ret;
-    };
-    SiriusApi.getUserProfile = function () {
-        return axios_1.default.get(this.apiUrl + "/user_profile").then(function (data) {
-            return data.data;
-        });
     };
     SiriusApi.parseSiriusBinaryResponse = function (arraybuffer) {
         var byteView = new Uint8Array(arraybuffer);
@@ -270,21 +283,26 @@ var SiriusApi = /** @class */ (function () {
         var data = new FormData();
         data.append("file", file);
         data.append("fileType", fileType);
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         var config = {
             onUploadProgress: onUploadProgress,
+            headers: headers,
         };
         return axios_1.default.post(this.apiUrl + "/user_files", data, config);
     };
     SiriusApi.getUserFiles = function () {
-        return axios_1.default.get(this.apiUrl + "/user_files").then(function (data) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default.get(this.apiUrl + "/user_files", { headers: headers }).then(function (data) {
             return data.data;
         });
     };
     SiriusApi.deleteUserFile = function (fileID) {
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         var requestConfig = {
             params: {
                 fileID: fileID
             },
+            headers: headers,
         };
         return axios_1.default.delete(this.apiUrl + "/user_files", requestConfig);
     };

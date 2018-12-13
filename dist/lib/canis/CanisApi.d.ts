@@ -1,5 +1,6 @@
 declare class Api {
     static apiUrl: string;
+    static getAccessToken(): string;
     private static getMultiple;
     private static getById;
     private static availAppNames;

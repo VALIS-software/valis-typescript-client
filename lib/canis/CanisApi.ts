@@ -4,6 +4,7 @@ import axios from 'axios';
 
 class Api {
     public static apiUrl = '';
+    public static getAccessToken(): string {return ''};
     private static getMultiple(endpoint: string, constructFn: (json: any) => CanisObject) : Promise<Array<CanisObject>> {
         let url = `${Api.apiUrl}/${endpoint}`;
         return axios({
@@ -67,10 +68,11 @@ class Api {
 
     static getJobs(analysisId: string) : Promise<Array<Job>> {
         let url = `${Api.apiUrl}/jobs?analysisId=${analysisId}`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         return axios({
                 method: 'get',
                 url: url,
-                headers: {},
+                headers: headers,
             }).then((a : any) => {
                 return a.data.map((analysisJson: any) => {
                     return new Job(analysisJson);
@@ -80,10 +82,11 @@ class Api {
 
     static getFiles(jobId: string) : Promise<Array<string>> {
         let url = `${Api.apiUrl}/files?jobId=${jobId}`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         return axios({
                 method: 'get',
                 url: url,
-                headers: {},
+                headers: headers,
             }).then((a) => {
                 const resultList : Array<any> = a.data.reverse();
                 return resultList;
@@ -99,10 +102,11 @@ class Application {
 
     createJob(paramsJson: any) : Promise<Job> {
         let url = `${Api.apiUrl}/application/${this._appName}`;
+        const headers = {'Authorization': `Bearer ${Api.getAccessToken()}`};
         return axios({
             method: 'post',
             url: url,
-            headers: {},
+            headers: headers,
             data: paramsJson,
         }).then((a: any) => {
             return Api.getJob(a.data.job_id);
@@ -251,15 +255,15 @@ class Analysis extends CanisObject {
 
     createRun(name?: string, parameters?: Map<string, AnalysisParameterValue>): Promise<Job> {
         let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}`;
-
         let paramsObj: any = {};
         for (let [k,v] of parameters) {
             paramsObj[k] = v;
         }
+        const headers = {'Authorization': `Bearer ${Api.getAccessToken()}`};
         return axios({
                 method: 'post',
                 url: url,
-                headers: {},
+                headers: headers,
                 data: {
                     name: name || this.name,
                     code: this.code,
@@ -274,10 +278,11 @@ class Analysis extends CanisObject {
     getRuns(withStatus?: RunStatusType) : Promise<Array<Job>> {
         const status = withStatus ? `&withStatus=${withStatus}` : '';
         let url = `${Api.apiUrl}/jobs?analysisId=${this.analysisId}${status}`;
+        const headers = {'Authorization': `Bearer ${Api.getAccessToken()}`};
         return axios({
                 method: 'get',
                 url: url,
-                headers: {},
+                headers: headers,
             }).then((a : any) => {
                 return a.data.map((analysisJson: any) => {
                     return new Job(analysisJson);
@@ -316,10 +321,11 @@ class Dataset extends CanisObject {
 
     getAnalyses() : Promise<Array<Analysis>> {
         let url = `${Api.apiUrl}/analyses?datasetId=${this.datasetId}`;
+        const headers = {'Authorization': `Bearer ${Api.getAccessToken()}`};
         return axios({
                 method: 'get',
                 url: url,
-                headers: {},
+                headers: headers,
             }).then((a : any) => {
                 return a.data.map((analysisJson: any) => {
                     return new Analysis(analysisJson);
@@ -329,10 +335,11 @@ class Dataset extends CanisObject {
 
     createAnalysis(name: string, type: AnalysisType, code?: string) : Promise<Analysis> {
         let url = `${Api.apiUrl}/analyses`;
+        const headers = {'Authorization': `Bearer ${Api.getAccessToken()}`};
         return axios({
                 method: 'post',
                 url: url,
-                headers: {},
+                headers: headers,
                 data: {
                     name: name,
                     code: code,
