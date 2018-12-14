@@ -12,6 +12,7 @@ declare class Api {
     static getJob(jobId: string): Promise<Job>;
     static getJobs(analysisId: string): Promise<Array<Job>>;
     static getFiles(jobId: string): Promise<Array<string>>;
+    static getFileBlob(filePath: string): Promise<Blob>;
 }
 declare class Application {
     protected _appName: string;

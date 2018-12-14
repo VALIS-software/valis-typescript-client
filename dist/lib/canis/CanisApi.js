@@ -120,6 +120,17 @@ var Api = /** @class */ (function () {
             return resultList;
         });
     };
+    Api.getFileBlob = function (filePath) {
+        var url = Api.apiUrl + "/files/" + filePath;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default({
+            method: 'get',
+            url: url,
+            headers: headers,
+        }).then(function (response) {
+            return new Blob([response.data], { type: response.headers['content-type'] });
+        });
+    };
     Api.apiUrl = '';
     Api.availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier'];
     return Api;
