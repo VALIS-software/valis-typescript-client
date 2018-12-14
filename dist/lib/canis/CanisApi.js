@@ -127,8 +127,9 @@ var Api = /** @class */ (function () {
             method: 'get',
             url: url,
             headers: headers,
+            responseType: 'blob',
         }).then(function (response) {
-            return new Blob([response.data], { type: response.headers['content-type'] });
+            return response.data;
         });
     };
     Api.apiUrl = '';
