@@ -94,6 +94,18 @@ class Api {
                 return resultList;
         });
     }
+
+    static getFileBlob(filePath: string) : Promise<Blob> {
+        let url = `${Api.apiUrl}/files/${filePath}`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios({
+                method: 'get',
+                url: url,
+                headers: headers,
+            }).then((response) => {
+                return new Blob([response.data],{type: response.headers['content-type']});
+        });
+    }
 }
 
 class Application {
