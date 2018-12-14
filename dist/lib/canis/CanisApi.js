@@ -47,10 +47,11 @@ var Api = /** @class */ (function () {
     ;
     Api.getMultiple = function (endpoint, constructFn) {
         var url = Api.apiUrl + "/" + endpoint;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             var resultList = a.data.reverse();
             return resultList.map(constructFn);
@@ -58,10 +59,11 @@ var Api = /** @class */ (function () {
     };
     Api.getById = function (endpoint, objId, constructFn) {
         var url = Api.apiUrl + "/" + endpoint + "/" + objId;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
         return axios_1.default({
             method: 'get',
             url: url,
-            headers: {},
+            headers: headers,
         }).then(function (a) {
             return constructFn(a.data);
         });
