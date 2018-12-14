@@ -7,10 +7,11 @@ class Api {
     public static getAccessToken(): string {return ''};
     private static getMultiple(endpoint: string, constructFn: (json: any) => CanisObject) : Promise<Array<CanisObject>> {
         let url = `${Api.apiUrl}/${endpoint}`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         return axios({
                 method: 'get',
                 url: url,
-                headers: {},
+                headers: headers,
             }).then((a) => {
                 const resultList : Array<any> = a.data.reverse();
                 return resultList.map(constructFn);
@@ -19,10 +20,11 @@ class Api {
 
     private static getById(endpoint: string, objId: string, constructFn: (json: any) => CanisObject) : Promise<CanisObject> {
         let url = `${Api.apiUrl}/${endpoint}/${objId}`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
         return axios({
                 method: 'get',
                 url: url,
-                headers: {},
+                headers: headers,
             }).then((a : any) => {
                 return constructFn(a.data);
         });
