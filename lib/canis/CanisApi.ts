@@ -199,6 +199,10 @@ class Job extends CanisObject {
         return this._savedProps.result;
     }
 
+    get timeCreated(): string {
+        return this._savedProps.time_created;
+    }
+
     getOutputFiles(): Promise<string[]> {
         return Api.getFiles(this.id);
     }
