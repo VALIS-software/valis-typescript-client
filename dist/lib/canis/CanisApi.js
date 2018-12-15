@@ -247,6 +247,13 @@ var Job = /** @class */ (function (_super) {
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(Job.prototype, "timeCreated", {
+        get: function () {
+            return this._savedProps.time_created;
+        },
+        enumerable: true,
+        configurable: true
+    });
     Job.prototype.getOutputFiles = function () {
         return Api.getFiles(this.id);
     };
