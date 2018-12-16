@@ -68,6 +68,18 @@ class Api {
         return Api.getById(Job.resource, jobId, (json: any) => new Job(json)) as Promise<Job>;
     }
 
+    static deleteJob(jobId: string) : Promise<String> {
+        let url = `${Api.apiUrl}/jobs/delete/${jobId}`;
+        const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
+        return axios({
+                method: 'get',
+                url: url,
+                headers: headers,
+            }).then((r: any) => {
+                return r.data;
+        }) as Promise<String>;
+    }
+
     static getJobs(analysisId: string) : Promise<Array<Job>> {
         let url = `${Api.apiUrl}/jobs?analysisId=${analysisId}`;
         const headers = {'Authorization': `Bearer ${this.getAccessToken()}`};
