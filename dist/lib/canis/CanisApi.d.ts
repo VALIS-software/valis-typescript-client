@@ -10,6 +10,7 @@ declare class Api {
     static getAnalysis(analysisId: string): Promise<Analysis>;
     static getDataset(id: string): Promise<Dataset>;
     static getJob(jobId: string): Promise<Job>;
+    static deleteJob(jobId: string): Promise<String>;
     static getJobs(analysisId: string): Promise<Array<Job>>;
     static getFiles(jobId: string): Promise<Array<string>>;
     static getFileBlob(filePath: string): Promise<Blob>;

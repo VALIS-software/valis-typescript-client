@@ -95,6 +95,17 @@ var Api = /** @class */ (function () {
     Api.getJob = function (jobId) {
         return Api.getById(Job.resource, jobId, function (json) { return new Job(json); });
     };
+    Api.deleteJob = function (jobId) {
+        var url = Api.apiUrl + "/jobs/delete/" + jobId;
+        var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
+        return axios_1.default({
+            method: 'get',
+            url: url,
+            headers: headers,
+        }).then(function (r) {
+            return r.data;
+        });
+    };
     Api.getJobs = function (analysisId) {
         var url = Api.apiUrl + "/jobs?analysisId=" + analysisId;
         var headers = { 'Authorization': "Bearer " + this.getAccessToken() };
