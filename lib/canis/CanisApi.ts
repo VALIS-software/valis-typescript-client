@@ -30,7 +30,7 @@ class Api {
         });
     }
 
-    private static availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier'];
+    private static availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier', 'kipoi_score'];
 
     static getApps() : Promise<Array<Application>> {
         return new Promise(resolve => {

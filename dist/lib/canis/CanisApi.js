@@ -144,7 +144,7 @@ var Api = /** @class */ (function () {
         });
     };
     Api.apiUrl = '';
-    Api.availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier'];
+    Api.availAppNames = ['giggle', 'ld_expansion', 'kaplan_meier', 'kipoi_score'];
     return Api;
 }());
 exports.Api = Api;
